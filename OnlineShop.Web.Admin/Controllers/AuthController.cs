@@ -39,6 +39,7 @@ namespace OnlineShop.Web.Admin.Controllers
 
                 if (result.IsSuccess)
                     return RedirectToAction("Index", "Home");
+                //return Ok(result);
 
                 return BadRequest(result);
             }
