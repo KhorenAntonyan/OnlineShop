@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OnlineShop.Core.Entities
+namespace OnlineShop.DAL.Entities
 {
     public class Product
     {
@@ -14,6 +14,5 @@ namespace OnlineShop.Core.Entities
         public decimal Price { get; set; }
         public int Quantity { get; set; }
         public bool IsDeleted { get; set; }
-        public List<OrderProduct> OrderProducrts { get; set; }
     }
 }
