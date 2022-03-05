@@ -3,7 +3,9 @@ using Microsoft.IdentityModel.Tokens;
 using OnlineShop.Web.Admin.ViewModels;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Http;
 using System.Text;
+using Microsoft.AspNetCore.Components.Authorization;
 
 namespace OnlineShop.Web.Admin.Services
 {
@@ -11,11 +13,13 @@ namespace OnlineShop.Web.Admin.Services
     {
         private UserManager<IdentityUser> _userManager;
         private IConfiguration _configuration;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public UserService(UserManager<IdentityUser> userManager, IConfiguration configuration)
+        public UserService(UserManager<IdentityUser> userManager, IConfiguration configuration, IHttpContextAccessor httpContextAccessor)
         {
             _userManager = userManager;
             _configuration = configuration;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         public async Task<UserManagerResponse> RegisterUserAsync(RegisterViewModel model)
@@ -88,11 +92,17 @@ namespace OnlineShop.Web.Admin.Services
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:ServerSecret"]));
 
             var token = new JwtSecurityToken(
+                issuer: "localhost",
+                audience: "localhost",
                 claims: claims,
                 expires: DateTime.Now.AddDays(30),
                 signingCredentials: new SigningCredentials(key, SecurityAlgorithms.HmacSha256));
 
             var tokenAsString = new JwtSecurityTokenHandler().WriteToken(token);
+
+            CustomAuthStateProvider prov = new CustomAuthStateProvider();
+            prov.GetAuthenticationStateAsync();
+            //_httpContextAccessor.SignInAsync(new ClaimsPrincipal(new ClaimsIdentity(claims, "Email")));
 
             return new UserManagerResponse
             {
@@ -100,6 +110,21 @@ namespace OnlineShop.Web.Admin.Services
                 IsSuccess = true,
                 ExpireDate = token.ValidTo,
             };
+        }
+    }
+
+    public class CustomAuthStateProvider : AuthenticationStateProvider
+    {
+        public override Task<AuthenticationState> GetAuthenticationStateAsync()
+        {
+            var identity = new ClaimsIdentity(new[]
+            {
+            new Claim(ClaimTypes.Name, "mrfibuli"),
+        }, "Fake authentication type");
+
+            var user = new ClaimsPrincipal(identity);
+
+            return Task.FromResult(new AuthenticationState(user));
         }
     }
 }
