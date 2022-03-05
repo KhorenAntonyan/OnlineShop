@@ -1,13 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using OnlineShop.Core.Entities;
+using OnlineShop.DAL.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OnlineShop.Infrastructure.Data.Config
+namespace OnlineShop.DAL.Configurations
 {
     public class ProductConfiguration : IEntityTypeConfiguration<Product>
     {
