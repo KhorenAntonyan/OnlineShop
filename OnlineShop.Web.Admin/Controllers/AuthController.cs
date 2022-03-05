@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using OnlineShop.Web.Admin.Services;
 using OnlineShop.Web.Admin.ViewModels;
 
 namespace OnlineShop.Web.Admin.Controllers
 {
+    [Authorize]
     public class AuthController : Controller
     {
         private IUserService _userService;
@@ -14,19 +16,22 @@ namespace OnlineShop.Web.Admin.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public IActionResult Login()
         {
             return View();
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public IActionResult Register()
         {
             return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> RegisterAsync([FromBody] RegisterViewModel model)
+        [AllowAnonymous]
+        public async Task<IActionResult> Register(RegisterViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -43,14 +48,15 @@ namespace OnlineShop.Web.Admin.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> LoginAsync([FromBody] LoginViewModel model)
+        [AllowAnonymous]
+        public async Task<IActionResult> Login(LoginViewModel model)
         {
             if (ModelState.IsValid)
             {
                 var result = await _userService.LoginUserAsync(model);
 
                 if (result.IsSuccess)
-                    return Ok(result);
+                    return RedirectToAction("Index", "Home");
 
                 return BadRequest(result);
             }
