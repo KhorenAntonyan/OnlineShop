@@ -1,11 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using OnlineShop.DAL.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OnlineShop.DAL.Configurations
 {
@@ -13,17 +8,21 @@ namespace OnlineShop.DAL.Configurations
     {
         public void Configure(EntityTypeBuilder<Product> builder)
         {
-            builder.HasKey(x => x.ProductId);
+            builder.HasKey(p => p.Id);
 
-            builder.Property(x => x.ProductName)
-                .HasMaxLength(500)
+            builder.Property(p => p.Id)
+                .HasColumnName("ProductId");
+
+            builder.Property(p => p.ProductName)
+                .HasMaxLength(512)
                 .IsRequired();
 
-            builder.Property(x => x.Description)
-                .HasMaxLength(2000)
+            builder.Property(p => p.Description)
+                .HasMaxLength(2048)
                 .IsRequired();
 
-            builder.Property(x => x.Price)
+            builder.Property(p => p.Price)
+                .HasPrecision(38, 18)
                 .IsRequired();
         }
     }

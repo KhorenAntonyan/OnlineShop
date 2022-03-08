@@ -1,6 +1,6 @@
-﻿namespace OnlineShop.DAL.Entities
+﻿namespace OnlineShop.BLL.DTOs
 {
-    public class Product : BaseEntity
+    public class AddProductDTO
     {
         public string ProductName { get; set; }
         public string Description { get; set; }
