@@ -5,11 +5,11 @@ var builder = WebApplication.CreateBuilder(args);
 
 string connection = builder.Configuration.GetConnectionString("DefaultConnection");
 
-builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(connection));
+builder.Services.AddDbContext<OnlineShopDbContext>(options => options.UseSqlServer(connection));
 
 var app = builder.Build();
 
-app.MapGet("/", (AppDbContext db) => db.Products.ToList());
+app.MapGet("/", (OnlineShopDbContext db) => db.Products.ToList());
 
 if (!app.Environment.IsDevelopment())
 {
