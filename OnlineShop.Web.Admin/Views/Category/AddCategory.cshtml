@@ -1,0 +1,13 @@
+﻿@model CategoryViewModel
+
+<form class="row pt-5 m-auto col-5" asp-action="AddCategory" method="post">
+    <div class="mb-3">
+        <label for="inputCategoryName" class="form-label">CategoryName</label>
+        <input type="text" class="form-control" asp-for="CategoryName">
+    </div>
+    <div class="mb-3">
+        <label for="inputDescription" class="form-label">Description</label>
+        <textarea class="form-control" asp-for="Description"></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Add</button>
+</form>

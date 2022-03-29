@@ -7,10 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Folder Include="Services\" />
     <Folder Include="wwwroot\lib\" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="11.0.1" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.2">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -19,7 +22,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\OnlineShop.Infrastructure\OnlineShop.DAL.csproj" />
+    <ProjectReference Include="..\OnlineShop.BLL\OnlineShop.BLL.csproj" />
+    <ProjectReference Include="..\OnlineShop.Core\OnlineShop.Core.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,15 +1,15 @@
 using Microsoft.EntityFrameworkCore;
-using OnlineShop.Infrastructure.Data;
+//using OnlineShop.Infrastructure.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
-string connection = builder.Configuration.GetConnectionString("DefaultConnection");
+//string connection = builder.Configuration.GetConnectionString("DefaultConnection");
 
-builder.Services.AddDbContext<OnlineShopDbContext>(options => options.UseSqlServer(connection));
+//builder.Services.AddDbContext<OnlineShopDbContext>(options => options.UseSqlServer(connection));
 
 var app = builder.Build();
 
-app.MapGet("/", (OnlineShopDbContext db) => db.Products.ToList());
+//app.MapGet("/", (OnlineShopDbContext db) => db.Products.ToList());
 
 if (!app.Environment.IsDevelopment())
 {
