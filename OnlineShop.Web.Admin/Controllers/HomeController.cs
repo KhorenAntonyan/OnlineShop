@@ -7,7 +7,7 @@ using System.Security.Claims;
 
 namespace OnlineShop.Web.Admin.Controllers
 {
-    [Authorize]
+    //[Authorize]
     public class HomeController : Controller
     {
 
@@ -17,18 +17,9 @@ namespace OnlineShop.Web.Admin.Controllers
         }
 
         [HttpGet]
-        [AllowAnonymous]
-        public async Task<IActionResult> IndexAsync()
+        //[AllowAnonymous]
+        public IActionResult Index()
         {
-            //var username = HttpContext.Current.User.Identity.Name;
-
-            //var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
-            //var user = authState.User;
-
-            //if(!User.Identities.FirstOrDefault(u => u.Claims.))
-            //{
-            //    return RedirectToAction("Login", "Auth");
-            //}
             return View();
         }
 
