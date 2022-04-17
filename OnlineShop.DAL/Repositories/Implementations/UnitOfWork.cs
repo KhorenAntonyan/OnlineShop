@@ -13,6 +13,7 @@ namespace OnlineShop.DAL.Repositories.Implementations
         }
         private CategoryRepository categoryRepository;
         private ProductRepository productRepository;
+        private PhotoRepository photoRepository;
 
         public ProductRepository ProductRepository
         {
@@ -38,6 +39,17 @@ namespace OnlineShop.DAL.Repositories.Implementations
             }
         }
 
+        public PhotoRepository PhotoRepository
+        {
+            get
+            {
+                if (this.photoRepository == null)
+                {
+                    this.photoRepository = new PhotoRepository(context);
+                }
+                return photoRepository;
+            }
+        }
         public void Save()
         {
             context.SaveChanges();

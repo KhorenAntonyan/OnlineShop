@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using OnlineShop.BLL.DTOs.PhotoDTOs;
 using OnlineShop.BLL.DTOs.ProductDTOs;
 using OnlineShop.BLL.Services.Abstractions;
 using OnlineShop.DAL.Entities;
@@ -16,19 +17,22 @@ namespace OnlineShop.BLL.Services.Implementations
             this.unitOfWork = unitOfWork;
             _mapper = mapper;
         }
-        public Task Add(AddProductDTO addProductDTO)
+        public void Add(AddProductDTO addProductDTO)
         {
             var product = _mapper.Map<Product>(addProductDTO);
-
             unitOfWork.ProductRepository.Add(product);
             unitOfWork.Save();
-
-            return Task.CompletedTask;
         }
 
-        public IEnumerable<AddProductDTO> GetAll()
+        public GetProductDTO FindById(int productId)
         {
-            var addProduct = _mapper.Map<List<AddProductDTO>>(unitOfWork.ProductRepository.GetAll());
+            var product = _mapper.Map<GetProductDTO>(unitOfWork.ProductRepository.FindById(productId));
+            return product;
+        }
+
+        public IEnumerable<GetProductDTO> GetAll()
+        {
+            var addProduct = _mapper.Map<List<GetProductDTO>>(unitOfWork.ProductRepository.GetAll());
 
             return addProduct;
         }
@@ -40,10 +44,9 @@ namespace OnlineShop.BLL.Services.Implementations
             unitOfWork.Save();
         }
 
-        public void Update(int productId)
+        public void Update(UpdateProductDTO updateProductDTO)
         {
-            Product updateProduct = unitOfWork.ProductRepository.FindById(productId);
-
+            var updateProduct = _mapper.Map<Product>(updateProductDTO);
             unitOfWork.ProductRepository.Update(updateProduct);
             unitOfWork.Save();
         }

@@ -1,8 +1,8 @@
-﻿@model ProductViewModel
+﻿@model AddProductViewModel
 
-<form class="row g-3" asp-action="AddProduct" method="post">
+<form class="row g-3" asp-action="AddProduct" method="post" enctype="multipart/form-data">
     <div class="col-12">
-        <label for="inputProductname" class="form-label">Productname</label>
+        <label for="inputProductname" class="form-label">ProductName</label>
         <input type="text" class="form-control" asp-for="ProductName">
     </div>
     <div class="col-md-4">
@@ -22,6 +22,10 @@
     <div class="col-12">
         <label for="inputDescription" class="form-label">Description</label>
         <textarea class="form-control" asp-for="Description"></textarea>
+    </div>
+    <div class="col-12">
+        <label for="formFileMultiple" class="form-label">Add Product Photo</label>
+        <input class="form-control" type="file" multiple="multiple" accept="image/*" asp-for="Files">
     </div>
     <div class="col-12">
         <button type="submit" class="btn btn-primary">Add</button>

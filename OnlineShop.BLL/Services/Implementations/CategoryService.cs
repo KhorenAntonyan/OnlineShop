@@ -16,12 +16,11 @@ namespace OnlineShop.BLL.Services.Implementations
             this.unitOfWork = unitOfWork;
             _mapper = mapper;
         }
-        public Task Add(CategoryDTO addCategoryDTO)
+        public void Add(AddCategoryDTO addCategoryDTO)
         {
             var category = _mapper.Map<Category>(addCategoryDTO);
             unitOfWork.CategoryRepository.Add(category);
             unitOfWork.Save();
-            return Task.CompletedTask;
         }
 
         public IEnumerable<GetCategoryDTO> GetAll()
@@ -32,8 +31,8 @@ namespace OnlineShop.BLL.Services.Implementations
 
         public GetCategoryDTO FindById(int categoryId)
         {
-            var updateCategory = _mapper.Map<GetCategoryDTO>(unitOfWork.CategoryRepository.FindById(categoryId));
-            return updateCategory;
+            var category = _mapper.Map<GetCategoryDTO>(unitOfWork.CategoryRepository.FindById(categoryId));
+            return category;
         }
 
         public void Remove(int categoryId)
@@ -43,9 +42,8 @@ namespace OnlineShop.BLL.Services.Implementations
             unitOfWork.Save();
         }
 
-        public void Update(GetCategoryDTO updateCategoryDTO)
+        public void Update(UpdateCategoryDTO updateCategoryDTO)
         {
-            //Category updateCategory = unitOfWork.CategoryRepository.FindById(updateCategoryDTO.Id);
             var updateCategory = _mapper.Map<Category>(updateCategoryDTO);
             unitOfWork.CategoryRepository.Update(updateCategory);
             unitOfWork.Save();

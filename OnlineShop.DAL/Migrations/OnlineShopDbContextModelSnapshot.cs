@@ -253,6 +253,38 @@ namespace OnlineShop.DAL.Migrations
                     b.ToTable("Categories");
                 });
 
+            modelBuilder.Entity("OnlineShop.DAL.Entities.Photo", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("PhotoId");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("ModifiedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("PhotoURL")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("Photo");
+                });
+
             modelBuilder.Entity("OnlineShop.DAL.Entities.Product", b =>
                 {
                     b.Property<int>("Id")
@@ -262,7 +294,7 @@ namespace OnlineShop.DAL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int>("CategoryForeignKey")
+                    b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("CreatedDate")
@@ -293,7 +325,7 @@ namespace OnlineShop.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CategoryForeignKey");
+                    b.HasIndex("CategoryId");
 
                     b.ToTable("Products");
                 });
@@ -349,11 +381,22 @@ namespace OnlineShop.DAL.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("OnlineShop.DAL.Entities.Photo", b =>
+                {
+                    b.HasOne("OnlineShop.DAL.Entities.Product", "Product")
+                        .WithMany("Photos")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
+                });
+
             modelBuilder.Entity("OnlineShop.DAL.Entities.Product", b =>
                 {
                     b.HasOne("OnlineShop.DAL.Entities.Category", "Category")
                         .WithMany("Products")
-                        .HasForeignKey("CategoryForeignKey")
+                        .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -363,6 +406,11 @@ namespace OnlineShop.DAL.Migrations
             modelBuilder.Entity("OnlineShop.DAL.Entities.Category", b =>
                 {
                     b.Navigation("Products");
+                });
+
+            modelBuilder.Entity("OnlineShop.DAL.Entities.Product", b =>
+                {
+                    b.Navigation("Photos");
                 });
 #pragma warning restore 612, 618
         }

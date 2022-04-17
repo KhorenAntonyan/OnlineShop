@@ -13,11 +13,13 @@ namespace OnlineShop.DAL.Contexts
 
         public DbSet<Product> Products { get; set; }
         public DbSet<Category> Categories { get; set; }
+        //public DbSet<Photo> Photos { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new CategoryConfiguration());
             modelBuilder.ApplyConfiguration(new ProductConfiguration());
+            modelBuilder.ApplyConfiguration(new PhotoConfiguration());
 
             base.OnModelCreating(modelBuilder);
         }

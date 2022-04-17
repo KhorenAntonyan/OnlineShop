@@ -6,6 +6,7 @@ namespace OnlineShop.DAL.Repositories.Abstractions
     {
         CategoryRepository CategoryRepository { get; }
         ProductRepository ProductRepository { get; }
+        PhotoRepository PhotoRepository { get; }
         public void Save();
     }
 }

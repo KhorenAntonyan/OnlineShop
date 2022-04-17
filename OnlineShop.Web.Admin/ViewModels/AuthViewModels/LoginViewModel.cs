@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace OnlineShop.Web.Admin.ViewModels
+namespace OnlineShop.Web.Admin.ViewModels.AuthViewModels
 {
     public class LoginViewModel
     {

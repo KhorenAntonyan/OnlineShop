@@ -1,6 +1,6 @@
-﻿namespace OnlineShop.Web.Admin.ViewModels
+﻿namespace OnlineShop.Web.Admin.ViewModels.CategoryViewModels
 {
-    public class CategoryViewModel
+    public class GetCategoryViewModel
     {
         public int Id { get; set; }
         public string CategoryName { get; set; }
