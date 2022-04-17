@@ -1,37 +1,73 @@
-﻿@model ProductViewModel
+﻿@model UpdateProductViewModel
 
-@*<h2>Create</h2>
+<h2 class="text-center mb-5">Update Product</h2>
 
-@using (Html.BeginForm()) 
-{
-    @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-        <h4>Course</h4>
-        <hr />
-        @Html.ValidationSummary(true)
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.CategoryName, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.CategoryName)
-                @Html.ValidationMessageFor(model => model.CategoryName)
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Description, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Description)
-                @Html.ValidationMessageFor(model => model.Description)
-            </div>
-        </div>
-
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
-            </div>
-        </div>
+<div id="carouselExampleCaptions" class="carousel slide row m-auto col-6" data-bs-ride="carousel">
+    <div class="carousel-indicators m-auto">
+        @for (int i = 0; i < Model.Photos.Count; i++)
+        {
+            if (i == 0)
+            {
+                <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="@i" class="active"></button>
+                continue;
+            }
+            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="@i" class=""></button>
+        }
     </div>
-}*@
+
+    <div class="carousel-inner">
+        @foreach (var photo in Model.Photos)
+        {
+            string activeItem = photo == Model.Photos.First() ? "active" : "";
+
+            <div class="carousel-item @activeItem">
+                <img src='@Url.Content("~/img/" + photo)' class="d-block w-100" style="width: 150px; height: 350px;">
+                <div class="carousel-caption d-none d-md-block">
+                    <i class="bi bi-pencil-square"></i>
+                    <button type="submit" class="btn btn-outline-primary" style="margin-right: 10px" onclick="location.href='@Url.Action("UpdatePhoto", "Photo", new { photoName = photo })'">Update</button>
+                    <button type="submit" class="btn btn-outline-danger" onclick="location.href='@Url.Action("RemovePhoto", "Photo", new { photoName = photo })'">Remove</button>
+                </div>
+            </div>
+        }
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+    </button>
+</div>
+
+
+<form class="row pt-5 m-auto mb-5 col-5" asp-action="UpdateProduct" method="post" enctype="multipart/form-data">
+    <input type="hidden" class="form-control" asp-for="Id">
+    <input type="hidden" class="form-control" asp-for="CreatedDate">
+    <input type="hidden" class="form-control" asp-for="Photos">
+    <div class="mb-3">
+        <label for="inputProductName" class="form-label">ProductName</label>
+        <input type="text" class="form-control" asp-for="ProductName">
+    </div>
+    <div class="mb-3">
+        <label for="inputDescription" class="form-label">Description</label>
+        <textarea class="form-control" asp-for="Description"></textarea>
+    </div>
+    <div class="mb-3">
+        <label for="inputCategory" class="form-label">Category</label>
+        <select class="form-select" asp-for="CategoryId" asp-items="@Model.Categories"></select>
+    </div>
+    <div class="mb-3">
+        <label for="inputPrice" class="form-label">Price</label>
+        <input type="number" min="0.00" max="1000000.00" step="0.01" class="form-control" asp-for="Price">
+    </div>
+    <div class="mb-3">
+        <label for="inputQuantity" class="form-label">Quantity</label>
+        <input type="number" class="form-control" asp-for="Quantity">
+    </div>
+    <div class="col-12">
+        <label for="formFileMultiple" class="form-label">Add Product Photo</label>
+        <input class="form-control" type="file" multiple="multiple" accept="image/*" asp-for="Files">
+    </div>
+    <button type="submit" class="btn btn-primary">Update</button>
+</form>

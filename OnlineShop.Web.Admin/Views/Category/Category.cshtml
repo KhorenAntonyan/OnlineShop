@@ -1,4 +1,4 @@
-﻿@model List<CategoryViewModel>
+﻿@model List<GetCategoryViewModel>
 
 <h1 class="text-center">Categories</h1>
 <div class="d-flex mt-5 mb-5 justify-content-between">
@@ -23,7 +23,7 @@
                 <td scope="row">@item.Description</td>
                 <td scope="row">@item.CreatedDate</td>
                 <td scope="row"><button type="submit" class="btn btn-outline-primary" style="margin-right: 10px" onclick="window.location = '@Url.Action("UpdateCategory", "Category", new { categoryId = item.Id })'">Update</button></td>
-                <td scope="row"><button type="submit" class="btn btn-outline-danger" onclick="location.href='@Url.Action("RemoveCategory", "Category", new { Id = item.Id })'">Remove</button></td>
+                <td scope="row"><button type="submit" class="btn btn-outline-danger" onclick="location.href='@Url.Action("RemoveCategory", "Category", new { categoryId = item.Id })'">Remove</button></td>
             </tr>
         }
     </tbody>

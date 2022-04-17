@@ -5,10 +5,10 @@ namespace OnlineShop.BLL.Services.Abstractions
 {
     public interface ICategoryService : IBaseService<Category>
     {
-        Task Add(CategoryDTO addCategoryDTO);
+        void Add(AddCategoryDTO addCategoryDTO);
         IEnumerable<GetCategoryDTO> GetAll();
         public GetCategoryDTO FindById(int categoryId);
-        void Update(GetCategoryDTO updateCategoryDTO);
-        void Remove(int id);
+        void Update(UpdateCategoryDTO updateCategoryDTO);
+        void Remove(int categoryId);
     }
 }

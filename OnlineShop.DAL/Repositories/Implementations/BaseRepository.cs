@@ -1,9 +1,7 @@
 ﻿using OnlineShop.DAL.Entities;
 using OnlineShop.DAL.Repositories.Abstractions;
 using OnlineShop.DAL.Contexts;
-using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
-using System.Linq;
 
 namespace OnlineShop.DAL.Repositories.Implementations
 {
@@ -24,12 +22,12 @@ namespace OnlineShop.DAL.Repositories.Implementations
             return entity;
         }
 
-        public TEntity FindById(int id)
+        public virtual TEntity FindById(int id)
         {
             return _dbSet.Find(id);
         }
 
-        public IQueryable<TEntity> GetAll()
+        public virtual IQueryable<TEntity> GetAll()
         {
             return _dbSet.ToList().AsQueryable();
         }
