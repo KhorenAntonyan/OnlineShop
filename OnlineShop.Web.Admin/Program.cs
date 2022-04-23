@@ -151,13 +151,4 @@ app.MapControllerRoute(
 //    return Results.Redirect("/");
 //});
 
-//app.Map("/", (HttpContext context) =>
-//{
-//    var user = context.User.Identity;
-//    if (user is not null && user.IsAuthenticated)
-//        return Results.Redirect("Home/Index");
-//    else
-//        return Results.Redirect("Auth/Login");
-//});
-
 app.Run();
