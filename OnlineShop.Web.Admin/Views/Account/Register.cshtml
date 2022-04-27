@@ -1,0 +1,29 @@
+﻿@model RegisterViewModel
+
+<form class="col-5 mx-auto mt-5" method="post" asp-controller="Account" asp-action="Register">
+    <h2 class="text-center">Register</h2>
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="form-group">
+        <label class="form-label" asp-for="Email">Email address</label>
+        <input type="email" class="form-control" aria-describedby="emailHelp" asp-for="Email">
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+        <div class="form-group">
+        <label class="form-label" asp-for="Year">Year</label>
+        <input type="date" class="form-control" asp-for="Email">
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label class="form-label" asp-for="Password">Password</label>
+        <input type="password" class="form-control" asp-for="Password">
+        <span asp-validation-for="Password" class="text-danger"></span>
+    </div>
+     <div class="form-group">
+        <label class="form-label" asp-for="PasswordConfirm">PasswordConfirm</label>
+        <input type="password" class="form-control" asp-for="PasswordConfirm">
+        <span asp-validation-for="PasswordConfirm" class="text-danger"></span>
+    </div>
+    <div class="text-center">
+        <button type="submit" class="btn btn-primary">Register</button>
+    </div>
+</form>

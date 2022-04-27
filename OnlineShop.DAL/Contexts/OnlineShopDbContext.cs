@@ -5,7 +5,7 @@ using OnlineShop.DAL.Entities;
 
 namespace OnlineShop.DAL.Contexts
 {
-    public class OnlineShopDbContext : IdentityDbContext//<IdentityUser>
+    public class OnlineShopDbContext : IdentityDbContext<User>
     {
         public OnlineShopDbContext(DbContextOptions<OnlineShopDbContext> options) : base(options)
         {
