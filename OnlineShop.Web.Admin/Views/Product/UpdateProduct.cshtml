@@ -18,14 +18,21 @@
     <div class="carousel-inner">
         @foreach (var photo in Model.Photos)
         {
-            string activeItem = photo == Model.Photos.First() ? "active" : "";
+            string activeItem = photo.IsMain == true ? "active" : "";
 
             <div class="carousel-item @activeItem">
-                <img src='@Url.Content("~/img/" + photo)' class="d-block w-100" style="width: 150px; height: 350px;">
+                <img src='@Url.Content("~/img/" + photo.PhotoURL)' class="d-block w-100" style="width: 150px; height: 350px;">
                 <div class="carousel-caption d-none d-md-block">
-                    <i class="bi bi-pencil-square"></i>
-                    <button type="submit" class="btn btn-outline-primary" style="margin-right: 10px" onclick="location.href='@Url.Action("UpdatePhoto", "Photo", new { photoName = photo })'">Update</button>
                     <button type="submit" class="btn btn-outline-danger" onclick="location.href='@Url.Action("RemovePhoto", "Photo", new { photoName = photo })'">Remove</button>
+                    @if (!photo.IsMain)
+                    {
+                        //var url = Url.Action("UpdateMainPhoto", "Photo", new { photoName = photo.PhotoURL, photoList = Model.Photos});
+
+                        <div class="form-check p-0" style="width: 30%; margin-left: 90%;">
+                            <input class="form-check-input" type="checkbox" id="gridCheck" onclick="window.location='@Url.Action("UpdateMainPhoto", "Photo", new { photoList = Model.Photos})'">
+                            <label class="form-check-label" for="gridCheck">Make the main</label>
+                        </div>
+                    }
                 </div>
             </div>
         }
@@ -42,30 +49,36 @@
 
 
 <form class="row pt-5 m-auto mb-5 col-5" asp-action="UpdateProduct" method="post" enctype="multipart/form-data">
+    <div asp-validation-summary="ModelOnly"></div>
     <input type="hidden" class="form-control" asp-for="Id">
     <input type="hidden" class="form-control" asp-for="CreatedDate">
     <input type="hidden" class="form-control" asp-for="Photos">
     <div class="mb-3">
         <label for="inputProductName" class="form-label">ProductName</label>
         <input type="text" class="form-control" asp-for="ProductName">
+        <span asp-validation-for="ProductName"></span>
     </div>
     <div class="mb-3">
         <label for="inputDescription" class="form-label">Description</label>
         <textarea class="form-control" asp-for="Description"></textarea>
+        <span asp-validation-for="Description"></span>
     </div>
     <div class="mb-3">
         <label for="inputCategory" class="form-label">Category</label>
         <select class="form-select" asp-for="CategoryId" asp-items="@Model.Categories"></select>
+        <span asp-validation-for="CategoryId"></span>
     </div>
     <div class="mb-3">
         <label for="inputPrice" class="form-label">Price</label>
         <input type="number" min="0.00" max="1000000.00" step="0.01" class="form-control" asp-for="Price">
+        <span asp-validation-for="Price"></span>
     </div>
     <div class="mb-3">
         <label for="inputQuantity" class="form-label">Quantity</label>
         <input type="number" class="form-control" asp-for="Quantity">
+        <span asp-validation-for="Quantity"></span>
     </div>
-    <div class="col-12">
+    <div class="col-12 mb-5">
         <label for="formFileMultiple" class="form-label">Add Product Photo</label>
         <input class="form-control" type="file" multiple="multiple" accept="image/*" asp-for="Files">
     </div>

@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using OnlineShop.BLL.DTOs.PhotoDTOs;
 using OnlineShop.BLL.DTOs.ProductDTOs;
 using OnlineShop.BLL.Services.Abstractions;
 using OnlineShop.DAL.Entities;
@@ -9,46 +8,50 @@ namespace OnlineShop.BLL.Services.Implementations
 {
     public class ProductService : BaseService<Product>, IProductService
     {
-        private readonly IUnitOfWork unitOfWork;
+        private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+        private readonly IPhotoService _photoService;
 
-        public ProductService(IUnitOfWork unitOfWork, IMapper mapper)
+        public ProductService(IUnitOfWork unitOfWork, IMapper mapper, IPhotoService photoService)
         {
-            this.unitOfWork = unitOfWork;
+            _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _photoService = photoService;
         }
         public void Add(AddProductDTO addProductDTO)
         {
+            var photos = _photoService.AddFiles(addProductDTO.PhotoFiles, addProductDTO.Id);
             var product = _mapper.Map<Product>(addProductDTO);
-            unitOfWork.ProductRepository.Add(product);
-            unitOfWork.Save();
+            product.Photos = photos;
+            _unitOfWork.ProductRepository.Add(product);
+            _unitOfWork.Save();
         }
 
         public GetProductDTO FindById(int productId)
         {
-            var product = _mapper.Map<GetProductDTO>(unitOfWork.ProductRepository.FindById(productId));
+            var product = _mapper.Map<GetProductDTO>(_unitOfWork.ProductRepository.FindById(productId));
             return product;
         }
 
         public IEnumerable<GetProductDTO> GetAll()
         {
-            var addProduct = _mapper.Map<List<GetProductDTO>>(unitOfWork.ProductRepository.GetAll());
+            var addProduct = _mapper.Map<List<GetProductDTO>>(_unitOfWork.ProductRepository.GetAll());
 
             return addProduct;
         }
 
         public void Remove(int productId)
         {
-            Product product = unitOfWork.ProductRepository.FindById(productId);
-            unitOfWork.ProductRepository.Remove(product);
-            unitOfWork.Save();
+            Product product = _unitOfWork.ProductRepository.FindById(productId);
+            _unitOfWork.ProductRepository.Remove(product);
+            _unitOfWork.Save();
         }
 
         public void Update(UpdateProductDTO updateProductDTO)
         {
             var updateProduct = _mapper.Map<Product>(updateProductDTO);
-            unitOfWork.ProductRepository.Update(updateProduct);
-            unitOfWork.Save();
+            _unitOfWork.ProductRepository.Update(updateProduct);
+            _unitOfWork.Save();
         }
     }
 }

@@ -34,10 +34,15 @@ namespace OnlineShop.Web.Admin.Controllers
         [HttpPost]
         public IActionResult AddCategory(AddCategoryViewModel addCategory)
         {
-            var newCategory = _mapper.Map<AddCategoryDTO>(addCategory);
-            _categoryService.Add(newCategory);
+            if (ModelState.IsValid)
+            {
+                var newCategory = _mapper.Map<AddCategoryDTO>(addCategory);
+                _categoryService.Add(newCategory);
 
-            return RedirectToAction("Category");
+                return RedirectToAction("Category");
+            }
+
+            return View(addCategory);
         }
 
         [HttpGet]
@@ -51,10 +56,15 @@ namespace OnlineShop.Web.Admin.Controllers
         [HttpPost]
         public IActionResult UpdateCategory(UpdateCategoryViewModel updateCategory)
         {
-            var updateCategoryDTO = _mapper.Map<UpdateCategoryDTO>(updateCategory);
-            _categoryService.Update(updateCategoryDTO);
+            if (ModelState.IsValid)
+            {
+                var updateCategoryDTO = _mapper.Map<UpdateCategoryDTO>(updateCategory);
+                _categoryService.Update(updateCategoryDTO);
 
-            return RedirectToAction("Category");
+                return RedirectToAction("Category");
+            }
+
+            return UpdateCategory(updateCategory.Id);
         }
 
         public void RemoveCategory(int categoryID)

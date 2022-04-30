@@ -79,6 +79,7 @@ builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IPhotoService, PhotoService>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
+
 var app = builder.Build();
 
 
@@ -90,15 +91,31 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
-
 app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
 
+//app.UseMvc(routes =>
+//{
+//    routes.MapRoute(
+//         name: "mainPoto",
+//         template: "Photo/UpdateMainPhoto/{photoId}/{photoList}");
+
+//    routes.MapRoute(
+//         name: "default",
+//         template: "{controller=Home}/{action=Index}/{id?}");
+//});
+//app.MapControllerRoute(
+//    name: "default",
+//    pattern: "Photo/UpdateMainPhoto/{photoId}/{photoList}"
+//    /*defaults: new { controller = "Photo", action = "UpdateMainPhoto" }*/);
+
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+
 
 //app.MapControllers();
 

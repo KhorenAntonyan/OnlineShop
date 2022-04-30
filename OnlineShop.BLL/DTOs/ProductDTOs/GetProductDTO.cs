@@ -1,4 +1,6 @@
 ﻿
+using OnlineShop.BLL.DTOs.PhotoDTOs;
+
 namespace OnlineShop.BLL.DTOs.ProductDTOs
 {
     public class GetProductDTO
@@ -10,6 +12,6 @@ namespace OnlineShop.BLL.DTOs.ProductDTOs
         public string Description { get; set; }
         public decimal Price { get; set; }
         public int Quantity { get; set; }
-        public List<string> Photos { get; set; }
+        public List<GetPhotoDTO> Photos { get; set; }
     }
 }

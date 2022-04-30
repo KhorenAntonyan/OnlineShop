@@ -1,13 +1,16 @@
 ﻿@model AddCategoryViewModel
 
 <form class="row pt-5 m-auto col-5" asp-action="AddCategory" method="post">
+    <div asp-validation-summary="ModelOnly"></div>
     <div class="mb-3">
         <label for="inputCategoryName" class="form-label">CategoryName</label>
         <input type="text" class="form-control" asp-for="CategoryName">
+        <span asp-validation-for="CategoryName"></span>
     </div>
     <div class="mb-3">
         <label for="inputDescription" class="form-label">Description</label>
         <textarea class="form-control" asp-for="Description"></textarea>
+        <span asp-validation-for="Description"></span>
     </div>
     <button type="submit" class="btn btn-primary">Add</button>
 </form>

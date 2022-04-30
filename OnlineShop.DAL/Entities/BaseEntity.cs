@@ -1,4 +1,5 @@
-﻿namespace OnlineShop.DAL.Entities
+﻿
+namespace OnlineShop.DAL.Entities
 {
     public class BaseEntity : IBaseEntity
     {
