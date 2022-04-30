@@ -1,18 +1,21 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace OnlineShop.Web.Admin.ViewModels.AuthViewModels
+namespace OnlineShop.Web.Admin.ViewModels.AccountViewModels
 {
     public class LoginViewModel
     {
         [Required]
-        [StringLength(50)]
-        [EmailAddress]
+        [Display(Name = "Email")]
         public string Email { get; set; }
 
         [Required]
-        [StringLength(50, MinimumLength = 5)]
+        [DataType(DataType.Password)]
+        [Display(Name = "Password")]
         public string Password { get; set; }
 
+        [Display(Name = "Remember?")]
         public bool RememberMe { get; set; }
+
+        public string ReturnUrl { get; set; }
     }
 }
