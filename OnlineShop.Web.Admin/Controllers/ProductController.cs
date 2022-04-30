@@ -42,21 +42,32 @@ namespace OnlineShop.Web.Admin.Controllers
         [HttpPost]
         public IActionResult AddProduct(AddProductViewModel addProduct)
         {
-            var newProduct = _mapper.Map<AddProductDTO>(addProduct);
-
-            if(addProduct.Files != null)
+            if (ModelState.IsValid)
             {
-                var addPhotos = _photoService.AddFiles(addProduct.Files, addProduct.Id);
+                addProduct.PhotoFiles.Add(addProduct.MainPhoto);
 
-                foreach (var photo in addPhotos)
-                {
-                    newProduct.Photos.Add(photo.PhotoURL);
-                }
+                var newProduct = _mapper.Map<AddProductDTO>(addProduct);
+
+                //List<string> photoList = new List<string>();
+                //if (addProduct.PhotoFiles != null)
+                //{
+                //    var addPhotos = _photoService.AddFiles(addProduct.PhotoFiles, addProduct.Id);
+
+                //    foreach (string photo in addPhotos)
+                //    {
+                //        photoList.Add(photo);
+                //    }
+                //    newProduct.Photos = photoList;
+                //}
+
+                _productService.Add(newProduct);
+
+                TempData["message"] = $"{addProduct.ProductName} has been saved";
+                return RedirectToAction("Product");
             }
 
-            _productService.Add(newProduct);
+            return View(addProduct);
 
-            return RedirectToAction("Product");
         }
 
         [HttpGet]
@@ -71,21 +82,27 @@ namespace OnlineShop.Web.Admin.Controllers
         [HttpPost]
         public IActionResult UpdateProduct(UpdateProductViewModel updateProduct)
         {
-            var product = _mapper.Map<UpdateProductDTO>(updateProduct);
-
-            if(updateProduct.Files != null)
+            if (ModelState.IsValid)
             {
-                var newPhotos = _photoService.AddFiles(updateProduct.Files, updateProduct.Id);
+                var product = _mapper.Map<UpdateProductDTO>(updateProduct);
 
-                foreach (var photo in newPhotos)
+                if (updateProduct.Files != null)
                 {
-                    product.Photos.Add(photo.PhotoURL);
+                    var newPhotos = _photoService.AddFiles(updateProduct.Files, updateProduct.Id);
+
+                    //foreach (var photo in newPhotos)
+                    //{
+                    //    product.Photos.Add(photo);
+                    //}
                 }
+
+                _productService.Update(product);
+
+                return RedirectToAction("Product");
             }
 
-            _productService.Update(product);
 
-            return RedirectToAction("Product");
+            return UpdateProduct(updateProduct.Id);
         }
 
         public IActionResult RemoveProduct(int productId)
@@ -94,7 +111,7 @@ namespace OnlineShop.Web.Admin.Controllers
 
             foreach(var photo in removeProduct.Photos)
             {
-                var photoPath = Path.Combine(_hostEnvironment.WebRootPath, "img", photo);
+                var photoPath = Path.Combine(_hostEnvironment.WebRootPath, "img", photo.PhotoURL);
                 if (System.IO.File.Exists(photoPath))
                     System.IO.File.Delete(photoPath);
             }

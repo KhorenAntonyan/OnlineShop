@@ -21,6 +21,10 @@ namespace OnlineShop.DAL.Configurations
                 .HasOne(p => p.Product)
                 .WithMany(p => p.Photos)
                 .HasForeignKey("ProductId");
+
+            builder.Property(p => p.IsMain)
+                .IsRequired(true)
+                .HasDefaultValue(false);
         }
     }
 }

@@ -1,5 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-
+﻿
 namespace OnlineShop.DAL.Entities
 {
     public class Product : BaseEntity

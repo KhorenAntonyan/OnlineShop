@@ -1,4 +1,6 @@
-﻿namespace OnlineShop.Web.Admin.ViewModels.ProductViewModels
+﻿using OnlineShop.Web.Admin.ViewModels.PhotoViewModels;
+
+namespace OnlineShop.Web.Admin.ViewModels.ProductViewModels
 {
     public class GetProductViewModel
     {
@@ -9,6 +11,6 @@
         public decimal Price { get; set; }
         public int Quantity { get; set; }
         public DateTime CreatedDate { get; set; }
-        public List<string> Photos { get; set; }
+        public List<GetPhotoViewModel> Photos { get; set; }
     }
 }

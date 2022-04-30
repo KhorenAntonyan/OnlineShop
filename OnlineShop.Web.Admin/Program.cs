@@ -37,6 +37,7 @@ builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IPhotoService, PhotoService>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
+
 var app = builder.Build();
 
 if (!app.Environment.IsDevelopment())

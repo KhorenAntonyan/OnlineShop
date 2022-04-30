@@ -1,4 +1,6 @@
 ﻿
+using Microsoft.AspNetCore.Http;
+
 namespace OnlineShop.BLL.DTOs.ProductDTOs
 {
     public class AddProductDTO
@@ -9,6 +11,6 @@ namespace OnlineShop.BLL.DTOs.ProductDTOs
         public string Description { get; set; }
         public decimal Price { get; set; }
         public int Quantity { get; set; }
-        public List<string> Photos { get; set; }
+        public List<IFormFile> PhotoFiles { get; set; }
     }
 }

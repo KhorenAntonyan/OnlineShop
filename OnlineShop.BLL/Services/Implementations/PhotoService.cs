@@ -27,37 +27,39 @@ namespace OnlineShop.BLL.Services.Implementations
             unitOfWork.Save();
         }
 
-        public IEnumerable<GetPhotoDTO> AddFiles(IEnumerable<IFormFile> photos, int productId)
+        public List<Photo> AddFiles(List<IFormFile> photos, int productId)
         {
-            List<GetPhotoDTO> photoList = new List<GetPhotoDTO>();
+            List<Photo> photoList = new List<Photo>();
 
             if (photos.Count() > 0)
             {
-                foreach (var photo in photos)
+                for (int i = 0; i < photos.Count(); i++)
                 {
                     string wwwRootPath = _hostEnvironment.WebRootPath;
-                    string fileName = Path.GetFileNameWithoutExtension(photo.FileName);
-                    string extension = Path.GetExtension(photo.FileName);
+                    string fileName = Path.GetFileNameWithoutExtension(photos[i].FileName);
+                    string extension = Path.GetExtension(photos[i].FileName);
                     fileName = fileName + DateTime.Now.ToString("yymmssfff") + extension;
                     string path = Path.Combine(wwwRootPath + "/img", fileName);
 
                     using (var fileStream = new FileStream(path, FileMode.Create))
                     {
-                        photo.CopyTo(fileStream);
+                        photos[i].CopyTo(fileStream);
                     }
 
-                    photoList.Add(new GetPhotoDTO
+                    photoList.Add(new Photo
                     {
                         PhotoURL = fileName,
-                        ProductId = productId
+                        ProductId = productId,
+                        IsMain = i == photos.Count() - 1 ? true : false
                     });
 
-                    if(productId != 0)
+                    if (productId != 0)
                     {
                         Add(new AddPhotoDTO
                         {
                             PhotoURL = fileName,
-                            ProductId = productId
+                            ProductId = productId,
+                            IsMain = i == photos.Count() - 1 ? true : false
                         });
                     }
                 }
@@ -76,6 +78,13 @@ namespace OnlineShop.BLL.Services.Implementations
         {
             Photo photo = unitOfWork.PhotoRepository.FindById(photoId);
             unitOfWork.PhotoRepository.Remove(photo);
+            unitOfWork.Save();
+        }
+
+        public void Update(UpdatePhotoDTO updatePhotoDTO)
+        {
+            var updatePhotos = _mapper.Map<Photo>(updatePhotoDTO);
+            unitOfWork.PhotoRepository.Update(updatePhotos);
             unitOfWork.Save();
         }
     }

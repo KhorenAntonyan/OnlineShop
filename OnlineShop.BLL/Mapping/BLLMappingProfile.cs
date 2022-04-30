@@ -11,10 +11,11 @@ namespace OnlineShop.BLL.Mapping
         public BLLMappingProfile()
         {
             CreateMap<Product, GetProductDTO>()
-                .ForMember(dest => dest.Photos, opt => opt.MapFrom(src => GetPhotoStringList(src.Photos)))
+                .ForMember(dest => dest.Photos, opt => opt.MapFrom(src => GetPhotoList(src.Photos)))
                 .ForMember(dest => dest.CategoryName, opt => opt.MapFrom(src => src.Category.CategoryName))
                 .ForMember(dest => dest.CategoryId, opt => opt.MapFrom(src => src.Category.Id));
-            CreateMap<AddProductDTO, Product>().ForMember(dest => dest.Photos, opt => opt.MapFrom(src => GetPhotoList(src.Photos)));
+            //CreateMap<AddProductDTO, Product>().ForMember(dest => dest.Photos, opt => opt.MapFrom(src => GetPhotoList(src.Photos)));
+            CreateMap<AddProductDTO, Product>();
             CreateMap<UpdateProductDTO, Product>().ForMember(dest => dest.Photos, opt => opt.MapFrom(src => GetPhotoList(src.Photos)));
             
             CreateMap<Category, GetCategoryDTO>().ReverseMap();
@@ -23,18 +24,25 @@ namespace OnlineShop.BLL.Mapping
             
             CreateMap<Photo, GetPhotoDTO>().ReverseMap();
             CreateMap<AddPhotoDTO, Photo>().ReverseMap();
+            CreateMap<UpdatePhotoDTO, Photo>().ReverseMap();
         }
 
-        List<string> GetPhotoStringList(List<Photo> photos)
+        List<GetPhotoDTO> GetPhotoList(List<Photo> photos)
         {
-            List<string> stringList = new List<string>();
+            List<GetPhotoDTO> photoList = new List<GetPhotoDTO>();
 
-            foreach(Photo photo in photos)
+            foreach (Photo photo in photos)
             {
-                stringList.Add(photo.PhotoURL);
+                photoList.Add(new GetPhotoDTO
+                {
+                    Id = photo.Id,
+                    PhotoURL = photo.PhotoURL,
+                    ProductId = photo.ProductId,
+                    IsMain = photo.IsMain
+                });
             }
 
-            return stringList;
+            return photoList;
         }
 
         List<Photo> GetPhotoList(List<string> photos)

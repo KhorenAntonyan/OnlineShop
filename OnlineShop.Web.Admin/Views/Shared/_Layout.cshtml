@@ -4,8 +4,16 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>@ViewBag.Title</title>
-    <link rel="stylesheet" href="~/lib/twitter-bootstrap/css/bootstrap.css" />
-    <link rel="stylesheet" href="~/css/site.css" />
+    @*    <link rel="stylesheet" href="~/lib/twitter-bootstrap/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="~/css/site.css" />*@
+    <environment include="Development">
+        <link rel="stylesheet" href="~/bootstrap/css/bootstrap.css" />
+        <link rel="stylesheet" href="~/css/site.css" />
+    </environment>
+    <environment exclude="Development">
+        <link rel="stylesheet" href="~/bootstrap/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="~/css/site.min.css" />
+    </environment>
 </head>
 <body>
     <header>
@@ -52,13 +60,17 @@ else
         </nav>
     </header>
     <div class="container">
+        @if (TempData["message"] != null)
+        {
+            <div class="alert alert-success">@TempData ["message"]</div>
+        }
         @RenderBody()
     </div>
 
 
 
 
-    <script src="~/lib/twitter-bootstrap/js/bootstrap.js"></script>
+    <script src="~/bootstrap/js/bootstrap.js"></script>
     @RenderSection("Scripts", required: false)
 </body>
 </html>

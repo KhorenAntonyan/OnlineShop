@@ -17,5 +17,6 @@ namespace OnlineShop.DAL.Repositories.Implementations
         {
             return _dbSet.FirstOrDefault(p => p.PhotoURL == photoName);
         }
+
     }
 }

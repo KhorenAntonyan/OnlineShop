@@ -7,8 +7,9 @@ namespace OnlineShop.BLL.Services.Abstractions
     public interface IPhotoService : IBaseService<Photo>
     {
         void Add(AddPhotoDTO addPhotoDTO);
-        IEnumerable<GetPhotoDTO> AddFiles(IEnumerable<IFormFile> photos, int productId);
+        List<Photo> AddFiles(List<IFormFile> photos, int productId);
         GetPhotoDTO Find(string photoName);
         void Remove(int photoId);
+        void Update(UpdatePhotoDTO updatePhotoDTO);
     }
 }
