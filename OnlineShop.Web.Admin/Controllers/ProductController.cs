@@ -25,11 +25,11 @@ namespace OnlineShop.Web.Admin.Controllers
         }
 
         [HttpGet]
-        public IActionResult Product()
+        public IActionResult GetProducts()
         {
             var products = _mapper.Map<List<GetProductViewModel>>(_productService.GetAll());
 
-            return View(products);
+            return PartialView(products);
         }
 
         [HttpGet]
@@ -63,7 +63,7 @@ namespace OnlineShop.Web.Admin.Controllers
                 _productService.Add(newProduct);
 
                 TempData["message"] = $"{addProduct.ProductName} has been saved";
-                return RedirectToAction("Product");
+                return RedirectToAction("GetProducts");
             }
 
             return View(addProduct);
@@ -98,7 +98,7 @@ namespace OnlineShop.Web.Admin.Controllers
 
                 _productService.Update(product);
 
-                return RedirectToAction("Product");
+                return RedirectToAction("GetProducts");
             }
 
 
@@ -118,7 +118,7 @@ namespace OnlineShop.Web.Admin.Controllers
 
             _productService.Remove(productId);
 
-            return RedirectToAction("Product");
+            return RedirectToAction("GetProducts");
         }
     }
 }
