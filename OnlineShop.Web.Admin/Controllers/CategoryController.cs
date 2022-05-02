@@ -18,11 +18,11 @@ namespace OnlineShop.Web.Admin.Controllers
         }
 
         [HttpGet]
-        public IActionResult Category()
+        public IActionResult GetCategories()
         {
             var categoryViewModel = _mapper.Map<List<GetCategoryViewModel>>(_categoryService.GetAll());
 
-            return View(categoryViewModel);
+            return PartialView(categoryViewModel);
         }
 
         [HttpGet]
@@ -39,7 +39,7 @@ namespace OnlineShop.Web.Admin.Controllers
                 var newCategory = _mapper.Map<AddCategoryDTO>(addCategory);
                 _categoryService.Add(newCategory);
 
-                return RedirectToAction("Category");
+                return RedirectToAction("GetCategories");
             }
 
             return View(addCategory);
@@ -61,7 +61,7 @@ namespace OnlineShop.Web.Admin.Controllers
                 var updateCategoryDTO = _mapper.Map<UpdateCategoryDTO>(updateCategory);
                 _categoryService.Update(updateCategoryDTO);
 
-                return RedirectToAction("Category");
+                return RedirectToAction("GetCategories");
             }
 
             return UpdateCategory(updateCategory.Id);
