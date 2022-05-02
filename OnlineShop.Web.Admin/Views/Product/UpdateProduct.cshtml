@@ -2,7 +2,7 @@
 
 <h2 class="text-center mb-5">Update Product</h2>
 
-<div id="carouselExampleCaptions" class="carousel slide row m-auto col-6" data-bs-ride="carousel">
+<div id="carouselExampleCaptions" class="carousel slide row m-auto col-7" data-bs-ride="carousel">
     <div class="carousel-indicators m-auto">
         @for (int i = 0; i < Model.Photos.Count; i++)
         {
@@ -21,27 +21,23 @@
             string activeItem = photo.IsMain == true ? "active" : "";
 
             <div class="carousel-item @activeItem">
-                <img src='@Url.Content("~/img/" + photo.PhotoURL)' class="d-block w-100" style="width: 150px; height: 350px;">
-                <div class="carousel-caption d-none d-md-block">
-                    <button type="submit" class="btn btn-outline-danger" onclick="location.href='@Url.Action("RemovePhoto", "Photo", new { photoName = photo })'">Remove</button>
+
+                <img src='@Url.Content("~/img/" + photo.PhotoURL)' class="d-block w-100" style="width: 400pc; height: 400px;">
+                <div class="pt-2" style="width:100%;">
+                    <button type="submit" class="btn btn-outline-danger" style="float:right;" onclick="location.href='@Url.Action("RemovePhoto", "Photo", new { photoName = photo })'">Remove</button>
                     @if (!photo.IsMain)
                     {
-                        //var url = Url.Action("UpdateMainPhoto", "Photo", new { photoName = photo.PhotoURL, photoList = Model.Photos});
-
-                        <div class="form-check p-0" style="width: 30%; margin-left: 90%;">
-                            <input class="form-check-input" type="checkbox" id="gridCheck" onclick="window.location='@Url.Action("UpdateMainPhoto", "Photo", new { photoList = Model.Photos})'">
-                            <label class="form-check-label" for="gridCheck">Make the main</label>
-                        </div>
+                        <button type="submit" class="btn btn-outline-primary" style="float:right; margin-right:5px;" onclick="window.location='@Url.Action("UpdateMainPhoto", "Photo", new { photoList = Model.Photos})'">Make the main</button>
                     }
                 </div>
             </div>
         }
     </div>
-    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev" style="margin-bottom:10%;">
         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
         <span class="visually-hidden">Previous</span>
     </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next" style="margin-bottom:10%;">
         <span class="carousel-control-next-icon" aria-hidden="true"></span>
         <span class="visually-hidden">Next</span>
     </button>
@@ -82,5 +78,8 @@
         <label for="formFileMultiple" class="form-label">Add Product Photo</label>
         <input class="form-control" type="file" multiple="multiple" accept="image/*" asp-for="Files">
     </div>
-    <button type="submit" class="btn btn-primary">Update</button>
+    <div class="col-12">
+        <button type="submit" class="btn btn-primary">Update</button>
+        <button type="button" class="btn btn-danger" onclick="location.href='@Url.Action("Product", "Product")'">Cansel</button>
+    </div>
 </form>

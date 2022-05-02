@@ -2,7 +2,7 @@
 
 <h1 class="text-center">Categories</h1>
 <div class="d-flex mt-5 mb-5 justify-content-between">
-    <a class="btn btn-outline-primary" asp-action="AddCategory" role="button">Add Category</a>
+    <a class="btn btn-outline-primary" asp-action="AddCategory" role="button"><i class="fa-solid fa-plus fas"></i>Add Category</a>
 </div>
 
 <table class="table table-striped indextable">
@@ -22,8 +22,8 @@
                 <td scope="row">@item.CategoryName</td>
                 <td scope="row">@item.Description</td>
                 <td scope="row">@item.CreatedDate</td>
-                <td scope="row"><button type="submit" class="btn btn-outline-primary" style="margin-right: 10px" onclick="window.location = '@Url.Action("UpdateCategory", "Category", new { categoryId = item.Id })'">Update</button></td>
-                <td scope="row"><button type="submit" class="btn btn-outline-danger" onclick="location.href='@Url.Action("RemoveCategory", "Category", new { categoryId = item.Id })'">Remove</button></td>
+                <td scope="row"><button type="submit" class="btn btn-outline-primary" style="margin-right: 10px" onclick="window.location = '@Url.Action("UpdateCategory", "Category", new { categoryId = item.Id })'"><i class="fa-solid fa-pen fas p-0"></i></button></td>
+                <td scope="row"><button type="submit" class="btn btn-outline-danger" onclick="location.href='@Url.Action("RemoveCategory", "Category", new { categoryId = item.Id })'"><i class="fa-solid fa-trash fas p-0"></i></button></td>
             </tr>
         }
     </tbody>
