@@ -87,5 +87,18 @@ namespace OnlineShop.BLL.Services.Implementations
             unitOfWork.PhotoRepository.Update(updatePhotos);
             unitOfWork.Save();
         }
+
+        public int UpdateMainPhoto(int photoId, int mainPhotoId)
+        {
+            Photo updatePhoto = unitOfWork.PhotoRepository.FindById(photoId);
+            Photo updateMainPhoto = unitOfWork.PhotoRepository.FindById(mainPhotoId);
+            updatePhoto.IsMain = true;
+            updateMainPhoto.IsMain = false;
+            unitOfWork.PhotoRepository.Update(updatePhoto);
+            unitOfWork.PhotoRepository.Update(updateMainPhoto);
+            unitOfWork.Save();
+            
+            return updatePhoto.ProductId;
+        }
     }
 }

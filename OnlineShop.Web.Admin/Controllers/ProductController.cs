@@ -36,7 +36,7 @@ namespace OnlineShop.Web.Admin.Controllers
         public IActionResult AddProduct()
         {
             ViewBag.Categories = new SelectList(_categoryService.GetAll(), "Id", "CategoryName");
-            return View();
+            return PartialView();
         }
 
         [HttpPost]

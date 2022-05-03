@@ -11,5 +11,6 @@ namespace OnlineShop.BLL.Services.Abstractions
         GetPhotoDTO Find(string photoName);
         void Remove(int photoId);
         void Update(UpdatePhotoDTO updatePhotoDTO);
+        int UpdateMainPhoto(int photoId, int mainPhotoId);
     }
 }

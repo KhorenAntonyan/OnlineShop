@@ -1,45 +1,60 @@
 ﻿@model AddProductViewModel
 
-<form class="row g-3" asp-action="AddProduct" method="post" enctype="multipart/form-data">
-    <div asp-validation-summary="ModelOnly"></div>
-    <div class="col-12">
-        <label for="inputProductname" class="form-label">ProductName</label>
-        <input type="text" class="form-control" asp-for="ProductName">
-        <span asp-validation-for="ProductName"></span>
+<div class="modal fade" id="addProduct" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modl-header">
+                <button type="button" class="btn-close" data-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form class="row g-3" asp-action="AddProduct" method="post" enctype="multipart/form-data">
+                    <div asp-validation-summary="ModelOnly"></div>
+                    <div class="col-12">
+                        <label for="inputProductname" class="form-label">ProductName</label>
+                        <input type="text" class="form-control" asp-for="ProductName">
+                        <span asp-validation-for="ProductName"></span>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="inputCategory" class="form-label">Category</label>
+                        <select class="form-select" asp-for="CategoryId" asp-items="ViewBag.Categories">
+                            <option selected>Choose...</option>
+                        </select>
+                        <span asp-validation-for="CategoryId"></span>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="inputPrice" class="form-label">Price</label>
+                        <input type="number" min="0.00" max="1000000.00" step="0.01" class="form-control" asp-for="Price">
+                        <span asp-validation-for="Price"></span>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="inputQuantity" class="form-label">Quantity</label>
+                        <input type="number" class="form-control" asp-for="Quantity">
+                        <span asp-validation-for="Quantity"></span>
+                    </div>
+                    <div class="col-12">
+                        <label for="inputDescription" class="form-label">Description</label>
+                        <textarea class="form-control" asp-for="Description"></textarea>
+                        <span asp-validation-for="Description"></span>
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label">Add Main Product Photo</label>
+                        <input class="form-control" type="file" accept="image/*" asp-for="MainPhoto">
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label">Add Product Photo</label>
+                        <input class="form-control" type="file" multiple="multiple" accept="image/*" asp-for="PhotoFiles">
+                    </div>
+                    <div class="col-12">
+                        <button type="submit" class="btn btn-primary">Add</button>
+                        <button type="button" class="btn btn-danger" onclick="location.href='@Url.Action("Product", "Product")'">Cansel</button>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary" data-save="model">Add</button>
+            </div>
+        </div>
     </div>
-    <div class="col-md-4">
-        <label for="inputCategory" class="form-label">Category</label>
-        <select class="form-select" asp-for="CategoryId" asp-items="ViewBag.Categories">
-            <option selected>Choose...</option>
-        </select>
-        <span asp-validation-for="CategoryId"></span>
-    </div>
-    <div class="col-md-4">
-        <label for="inputPrice" class="form-label">Price</label>
-        <input type="number" min="0.00" max="1000000.00" step="0.01" class="form-control" asp-for="Price">
-        <span asp-validation-for="Price"></span>
-    </div>
-    <div class="col-md-4">
-        <label for="inputQuantity" class="form-label">Quantity</label>
-        <input type="number" class="form-control" asp-for="Quantity">
-        <span asp-validation-for="Quantity"></span>
-    </div>
-    <div class="col-12">
-        <label for="inputDescription" class="form-label">Description</label>
-        <textarea class="form-control" asp-for="Description"></textarea>
-        <span asp-validation-for="Description"></span>
-    </div>
-    <div class="col-12">
-        <label class="form-label">Add Main Product Photo</label>
-        <input class="form-control" type="file" accept="image/*" asp-for="MainPhoto">
-    </div>
-    <div class="col-12">
-        <label class="form-label">Add Product Photo</label>
-        <input class="form-control" type="file" multiple="multiple" accept="image/*" asp-for="PhotoFiles">
-    </div>
-    <div class="col-12">
-        <button type="submit" class="btn btn-primary">Add</button>
-        <button type="button" class="btn btn-danger" onclick="location.href='@Url.Action("Product", "Product")'">Cansel</button>
-    </div>
-</form>
+</div>
 

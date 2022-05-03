@@ -16,6 +16,11 @@
     </div>
 
     <div class="carousel-inner">
+            
+        @{
+            int mainPhotoId = Model.Photos.SingleOrDefault(p => p.IsMain == true).Id;
+        }
+
         @foreach (var photo in Model.Photos)
         {
             string activeItem = photo.IsMain == true ? "active" : "";
@@ -24,10 +29,10 @@
 
                 <img src='@Url.Content("~/img/" + photo.PhotoURL)' class="d-block w-100" style="width: 400pc; height: 400px;">
                 <div class="pt-2" style="width:100%;">
-                    <button type="submit" class="btn btn-outline-danger" style="float:right;" onclick="location.href='@Url.Action("RemovePhoto", "Photo", new { photoName = photo })'">Remove</button>
+                    <button type="submit" class="btn btn-outline-danger" style="float:right;" onclick="location.href='@Url.Action("RemovePhoto", "Photo", new { photoName = photo.PhotoURL })'">Remove</button>
                     @if (!photo.IsMain)
                     {
-                        <button type="submit" class="btn btn-outline-primary" style="float:right; margin-right:5px;" onclick="window.location='@Url.Action("UpdateMainPhoto", "Photo", new { photoList = Model.Photos})'">Make the main</button>
+                        <button type="submit" class="btn btn-outline-primary" style="float:right; margin-right:5px;" onclick="window.location='@Url.Action("UpdateMainPhoto", "Photo", new { photoId = photo.Id, mainPhotoId = mainPhotoId })'">Make the main</button>
                     }
                 </div>
             </div>

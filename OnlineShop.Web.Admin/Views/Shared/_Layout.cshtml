@@ -18,10 +18,10 @@
         <h2><a class="navbar-brand" asp-controller="Home" asp-action="Index">Online Shop</a></h2>
         <ul>
             <li>
-                <a class="callPartialRenderBody" url="/Product/GetProducts"><i class="fas fa-solid fa-list"></i>Product</a>
+                <a class="callPartialRenderBody" href="/Product/GetProducts"><i class="fas fa-solid fa-list"></i>Product</a>
             </li>
             <li>
-                <a class="callPartialRenderBody" url="/Category/GetCategories"><i class="fas fa-solid fa-list"></i>Category</a>
+                <a class="callPartialRenderBody" href="/Category/GetCategories"><i class="fas fa-solid fa-list"></i>Category</a>
             </li>
         </ul>
         <div class="user-bar">
@@ -30,7 +30,7 @@
                 <p>@User.Identity.Name</p>
 
                 <form method="post" asp-controller="Account" asp-action="Logout">
-                    <input type="submit" value="Выход" />
+                    <input type="submit" value="Logout" />
                 </form>
             }
             else

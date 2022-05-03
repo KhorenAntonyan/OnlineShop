@@ -31,4 +31,8 @@
     <ProjectReference Include="..\OnlineShop.Core\OnlineShop.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\img\" />
+  </ItemGroup>
+
 </Project>

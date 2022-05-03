@@ -32,35 +32,11 @@ namespace OnlineShop.Web.Admin.Controllers
             return RedirectToAction("UpdateProduct", "Product", new { productId = photo.ProductId });
         }
 
-        //[HttpPost("Photo/UpdateMainPhoto/{photoId}/{photoList}")]
-        [HttpGet]
-        public IActionResult UpdateMainPhoto([FromQuery]List<GetPhotoViewModel> photoList)
+        //[HttpPost]
+        [Route("Photo/UpdateMainPhoto/{photoId}/{mainPhotoId}")]
+        public IActionResult UpdateMainPhoto(int photoId, int mainPhotoId)
         {
-            List<GetPhotoViewModel> updatePhoto = new List<GetPhotoViewModel>();
-            int productId = 0;
-
-            //foreach(var photo in photoList)
-            //{
-            //    if(photo.IsMain == true)
-            //    {
-            //        photo.IsMain = false;
-            //        updatePhoto.Add(photo);
-            //        productId = photo.ProductId;
-            //        continue;
-            //    }
-            //    if (photo.Id == photoId)
-            //    {
-            //        photo.IsMain = true;
-            //        updatePhoto.Add(photo);
-            //    }
-            //}
-
-            var updatePhotoDTO = _mapper.Map<List<UpdatePhotoDTO>>(updatePhoto);
-
-            foreach(var photo in updatePhotoDTO)
-            {
-                _photoService.Update(photo);
-            }
+            var productId = _photoService.UpdateMainPhoto(photoId, mainPhotoId);
 
             return RedirectToAction("UpdateProduct", "Product", new { productId = productId });
         }
