@@ -14,7 +14,6 @@ namespace OnlineShop.BLL.Mapping
                 .ForMember(dest => dest.Photos, opt => opt.MapFrom(src => GetPhotoList(src.Photos)))
                 .ForMember(dest => dest.CategoryName, opt => opt.MapFrom(src => src.Category.CategoryName))
                 .ForMember(dest => dest.CategoryId, opt => opt.MapFrom(src => src.Category.Id));
-            //CreateMap<AddProductDTO, Product>().ForMember(dest => dest.Photos, opt => opt.MapFrom(src => GetPhotoList(src.Photos)));
             CreateMap<AddProductDTO, Product>();
             CreateMap<UpdateProductDTO, Product>().ForMember(dest => dest.Photos, opt => opt.MapFrom(src => GetPhotoList(src.Photos)));
             

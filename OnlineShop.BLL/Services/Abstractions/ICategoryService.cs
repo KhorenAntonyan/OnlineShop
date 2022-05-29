@@ -9,6 +9,6 @@ namespace OnlineShop.BLL.Services.Abstractions
         IEnumerable<GetCategoryDTO> GetAll();
         public GetCategoryDTO FindById(int categoryId);
         void Update(UpdateCategoryDTO updateCategoryDTO);
-        void Remove(int categoryId);
+        void Delete(int categoryId);
     }
 }

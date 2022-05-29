@@ -7,7 +7,7 @@ using System.Security.Claims;
 
 namespace OnlineShop.Web.Admin.Controllers
 {
-    //[Authorize]
+    [Authorize]
     public class HomeController : Controller
     {
 
@@ -19,6 +19,13 @@ namespace OnlineShop.Web.Admin.Controllers
         [HttpGet]
         //[AllowAnonymous]
         public IActionResult Index()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult AddHome()
         {
             return View();
         }

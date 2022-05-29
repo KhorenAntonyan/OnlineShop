@@ -15,7 +15,7 @@ namespace OnlineShop.DAL.Repositories.Implementations
 
         public override IQueryable<Product> GetAll()
         {
-            return  _dbSet.Include(p => p.Photos).Include(c => c.Category).ToList().AsQueryable();
+            return _dbSet.Include(p => p.Photos).Include(c => c.Category).DefaultIfEmpty().ToList().AsQueryable();
         }
 
         public override Product FindById(int id)

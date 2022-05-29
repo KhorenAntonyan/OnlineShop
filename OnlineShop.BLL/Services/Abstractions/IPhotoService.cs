@@ -9,8 +9,7 @@ namespace OnlineShop.BLL.Services.Abstractions
         void Add(AddPhotoDTO addPhotoDTO);
         List<Photo> AddFiles(List<IFormFile> photos, int productId);
         GetPhotoDTO Find(string photoName);
-        void Remove(int photoId);
-        void Update(UpdatePhotoDTO updatePhotoDTO);
+        void Delete(int photoId);
         int UpdateMainPhoto(int photoId, int mainPhotoId);
     }
 }

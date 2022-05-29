@@ -32,7 +32,7 @@ namespace OnlineShop.DAL.Repositories.Implementations
             return _dbSet.ToList().AsQueryable();
         }
 
-        public void Remove(TEntity entity)
+        public void Delete(TEntity entity)
         {
             _dbSet.Remove(entity);
         }

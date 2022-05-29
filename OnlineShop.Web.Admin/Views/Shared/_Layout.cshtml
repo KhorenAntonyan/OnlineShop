@@ -16,18 +16,21 @@
 <body>
     <div class="sidebar">
         <h2><a class="navbar-brand" asp-controller="Home" asp-action="Index">Online Shop</a></h2>
-        <ul>
-            <li>
-                <a class="callPartialRenderBody" href="/Product/GetProducts"><i class="fas fa-solid fa-list"></i>Product</a>
-            </li>
-            <li>
-                <a class="callPartialRenderBody" href="/Category/GetCategories"><i class="fas fa-solid fa-list"></i>Category</a>
-            </li>
-        </ul>
+        @if (User.Identity.IsAuthenticated)
+        {
+            <ul>
+                <li>
+                    <a href="/Product/GetProducts"><i class="fas fa-solid fa-list"></i>Product</a>
+                </li>
+                <li>
+                    <a href="/Category/GetCategories"><i class="fas fa-solid fa-list"></i>Category</a>
+                </li>
+            </ul>
+        }
         <div class="user-bar">
             @if (User.Identity.IsAuthenticated)
             {
-                <p>@User.Identity.Name</p>
+                <p style="color:white; padding: 0 5px;">@User.Identity.Name</p>
 
                 <form method="post" asp-controller="Account" asp-action="Logout">
                     <input type="submit" value="Logout" />
@@ -37,17 +40,15 @@
             {
                 <a asp-controller="Account" asp-action="Login"><i class="fas fa-user"></i>Login</a>
                 <a asp-controller="Account" asp-action="Register">Register</a>
-            };
+            }
         </div>
     </div>
-    <div class="container main_content">
+    <div class="main_content">
         @if (TempData["message"] != null)
         {
-            <div class="alert alert-success">@TempData ["message"]</div>
+            <div class="alert alert-success">@TempData["message"]</div>
         }
-        <div id="partialRenderBody">
-            @RenderBody()
-        </div>
+        @RenderBody()
     </div>
 
     <script src="~/jquery/jquery.min.js"></script>

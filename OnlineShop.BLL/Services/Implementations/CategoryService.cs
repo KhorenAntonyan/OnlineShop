@@ -8,45 +8,46 @@ namespace OnlineShop.BLL.Services.Implementations
 {
     public class CategoryService : BaseService<Category>, ICategoryService
     {
-        private readonly IUnitOfWork unitOfWork;
+        private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
 
         public CategoryService(IUnitOfWork unitOfWork, IMapper mapper)
         {
-            this.unitOfWork = unitOfWork;
+            _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
+
         public void Add(AddCategoryDTO addCategoryDTO)
         {
             var category = _mapper.Map<Category>(addCategoryDTO);
-            unitOfWork.CategoryRepository.Add(category);
-            unitOfWork.Save();
+            _unitOfWork.CategoryRepository.Add(category);
+            _unitOfWork.Save();
         }
 
         public IEnumerable<GetCategoryDTO> GetAll()
         {
-            var categories = _mapper.Map<List<GetCategoryDTO>>(unitOfWork.CategoryRepository.GetAll());
+            var categories = _mapper.Map<List<GetCategoryDTO>>(_unitOfWork.CategoryRepository.GetAll());
             return categories;
         }
 
         public GetCategoryDTO FindById(int categoryId)
         {
-            var category = _mapper.Map<GetCategoryDTO>(unitOfWork.CategoryRepository.FindById(categoryId));
+            var category = _mapper.Map<GetCategoryDTO>(_unitOfWork.CategoryRepository.FindById(categoryId));
             return category;
         }
 
-        public void Remove(int categoryId)
+        public void Delete(int categoryId)
         {
-            Category category = unitOfWork.CategoryRepository.FindById(categoryId);
-            unitOfWork.CategoryRepository.Remove(category);
-            unitOfWork.Save();
+            Category category = _unitOfWork.CategoryRepository.FindById(categoryId);
+            _unitOfWork.CategoryRepository.Delete(category);
+            _unitOfWork.Save();
         }
 
         public void Update(UpdateCategoryDTO updateCategoryDTO)
         {
             var updateCategory = _mapper.Map<Category>(updateCategoryDTO);
-            unitOfWork.CategoryRepository.Update(updateCategory);
-            unitOfWork.Save();
+            _unitOfWork.CategoryRepository.Update(updateCategory);
+            _unitOfWork.Save();
         }
     }
 }

@@ -1,10 +1,9 @@
 ﻿@model List<GetProductViewModel>
 
+<div id="Modal"></div>
+
 <h1 class="text-center">Production</h1>
-<div class="d-flex mt-5 mb-5 justify-content-between">
-    @*<a class="btn btn-outline-primary" asp-action="AddProduct" role="button"><i class="fa-solid fa-plus fas"></i>Add Product</a>*@
-    <button type="button" class="btn btn-primary"  data-toggle="modal" data-target="#addProduct" data-url="@Url.Action("Product/AddProduct")">Add Product</button>
-</div>
+<a class="btn btn-outline-primary mb-3 addModal" href="/Product/AddProduct"><i class="fa-solid fa-plus fas"></i>Add Product</a>
 
 <table class="table table-striped indextable">
     <thead>
@@ -22,6 +21,7 @@
     <tbody>
         @foreach (var item in Model)
         {
+            var myModal = "myModal" + item.Id;
             <tr>
                 <td scope="row">
                     @foreach (var photo in item.Photos)
@@ -40,31 +40,8 @@
                 <td scope="row">@item.Price</td>
                 <td scope="row">@item.CreatedDate</td>
                 <td scope="row"><button type="submit" class="btn btn-outline-primary" style="margin-right: 10px" onclick="location.href='@Url.Action("UpdateProduct", "Product", new { productId = item.Id })'"><i class="fa-solid fa-pen fas p-0"></i></button></td>
-                <td scope="row"><button type="submit" class="btn btn-outline-danger" onclick="location.href='@Url.Action("RemoveProduct", "Product", new { productId = item.Id })'"><i class="fa-solid fa-trash fas p-0"></i></button></td>
-                @*<td scope="row"><button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="fa-solid fa-trash fas p-0"></i></button></td>*@
+                <td scope="row"><button class="btn btn-outline-danger mb-3 deleteModal" data-id="@item.Id" href="/Product/DeleteProduct"><i class="fa-solid fa-trash fas p-0"></i></button></td>
             </tr>
         }
-@*        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">You want delete this product?</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        ...
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
-                        @*<button type="submit" class="btn btn-danger" onclick="location.href='@Url.Action("RemoveProduct", "Product", new { productId = })'">Remove</button>*@
- @*                   </div>
-                </div>
-            </div>
-        </div>*@
     </tbody>
 </table>
-
-@*<!-- Button trigger modal -->
-    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-    Launch demo modal
-    </button>*@

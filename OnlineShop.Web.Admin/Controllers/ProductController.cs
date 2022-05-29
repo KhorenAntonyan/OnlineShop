@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using OnlineShop.BLL.DTOs.ProductDTOs;
@@ -7,6 +8,7 @@ using OnlineShop.Web.Admin.ViewModels.ProductViewModels;
 
 namespace OnlineShop.Web.Admin.Controllers
 {
+    [Authorize]
     public class ProductController : Controller
     {
         private readonly IProductService _productService;
@@ -29,13 +31,15 @@ namespace OnlineShop.Web.Admin.Controllers
         {
             var products = _mapper.Map<List<GetProductViewModel>>(_productService.GetAll());
 
-            return PartialView(products);
+            //return PartialView(products);
+            return View(products);
         }
 
         [HttpGet]
         public IActionResult AddProduct()
         {
             ViewBag.Categories = new SelectList(_categoryService.GetAll(), "Id", "CategoryName");
+            
             return PartialView();
         }
 
@@ -44,21 +48,10 @@ namespace OnlineShop.Web.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
+                if (addProduct.PhotoFiles == null)
+                    addProduct.PhotoFiles = new List<IFormFile>();
                 addProduct.PhotoFiles.Add(addProduct.MainPhoto);
-
                 var newProduct = _mapper.Map<AddProductDTO>(addProduct);
-
-                //List<string> photoList = new List<string>();
-                //if (addProduct.PhotoFiles != null)
-                //{
-                //    var addPhotos = _photoService.AddFiles(addProduct.PhotoFiles, addProduct.Id);
-
-                //    foreach (string photo in addPhotos)
-                //    {
-                //        photoList.Add(photo);
-                //    }
-                //    newProduct.Photos = photoList;
-                //}
 
                 _productService.Add(newProduct);
 
@@ -105,9 +98,16 @@ namespace OnlineShop.Web.Admin.Controllers
             return UpdateProduct(updateProduct.Id);
         }
 
-        public IActionResult RemoveProduct(int productId)
+        [HttpGet]
+        public IActionResult DeleteProduct()
         {
-            var removeProduct = _productService.FindById(productId);
+            return PartialView();
+        }
+
+        [HttpPost]
+        public IActionResult DeleteProduct(DeleteProductViewModel deleteProductViewModel)
+        {
+            var removeProduct = _productService.FindById(deleteProductViewModel.Id);
 
             foreach(var photo in removeProduct.Photos)
             {
@@ -116,7 +116,7 @@ namespace OnlineShop.Web.Admin.Controllers
                     System.IO.File.Delete(photoPath);
             }
 
-            _productService.Remove(productId);
+            _productService.Delete(deleteProductViewModel.Id);
 
             return RedirectToAction("GetProducts");
         }

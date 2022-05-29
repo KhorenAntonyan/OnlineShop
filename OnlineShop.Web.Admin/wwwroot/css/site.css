@@ -36,7 +36,6 @@ body {
     padding-right: 10px;
 }
 
-/*#4b4276*/
 .sidebar {
     width: 200px;
     height: 100%;
@@ -73,7 +72,6 @@ body {
             }
 
         .sidebar ul li:hover {
-            /*background-color: #594f8d;*/
             background-color: #fff;
         }
 

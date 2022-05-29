@@ -10,21 +10,22 @@ namespace OnlineShop.BLL.Services.Implementations
 {
     public class PhotoService : BaseService<Photo>, IPhotoService
     {
-        private readonly IUnitOfWork unitOfWork;
+        private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
         private readonly IWebHostEnvironment _hostEnvironment;
 
         public PhotoService(IUnitOfWork unitOfWork, IMapper mapper, IWebHostEnvironment hostEnvironment)
         {
-            this.unitOfWork = unitOfWork;
+            _unitOfWork = unitOfWork;
             _mapper = mapper;
             _hostEnvironment = hostEnvironment;
         }
+
         public void Add(AddPhotoDTO addPhotoDTO)
         {
             var photo = _mapper.Map<Photo>(addPhotoDTO);
-            unitOfWork.PhotoRepository.Add(photo);
-            unitOfWork.Save();
+            _unitOfWork.PhotoRepository.Add(photo);
+            _unitOfWork.Save();
         }
 
         public List<Photo> AddFiles(List<IFormFile> photos, int productId)
@@ -70,33 +71,26 @@ namespace OnlineShop.BLL.Services.Implementations
 
         public GetPhotoDTO Find(string photoName)
         {
-            var photo = _mapper.Map<GetPhotoDTO>(unitOfWork.PhotoRepository.Find(photoName));
+            var photo = _mapper.Map<GetPhotoDTO>(_unitOfWork.PhotoRepository.Find(photoName));
             return photo;
         }
 
-        public void Remove(int photoId)
+        public void Delete(int photoId)
         {
-            Photo photo = unitOfWork.PhotoRepository.FindById(photoId);
-            unitOfWork.PhotoRepository.Remove(photo);
-            unitOfWork.Save();
-        }
-
-        public void Update(UpdatePhotoDTO updatePhotoDTO)
-        {
-            var updatePhotos = _mapper.Map<Photo>(updatePhotoDTO);
-            unitOfWork.PhotoRepository.Update(updatePhotos);
-            unitOfWork.Save();
+            Photo photo = _unitOfWork.PhotoRepository.FindById(photoId);
+            _unitOfWork.PhotoRepository.Delete(photo);
+            _unitOfWork.Save();
         }
 
         public int UpdateMainPhoto(int photoId, int mainPhotoId)
         {
-            Photo updatePhoto = unitOfWork.PhotoRepository.FindById(photoId);
-            Photo updateMainPhoto = unitOfWork.PhotoRepository.FindById(mainPhotoId);
+            Photo updatePhoto = _unitOfWork.PhotoRepository.FindById(photoId);
+            Photo updateMainPhoto = _unitOfWork.PhotoRepository.FindById(mainPhotoId);
             updatePhoto.IsMain = true;
             updateMainPhoto.IsMain = false;
-            unitOfWork.PhotoRepository.Update(updatePhoto);
-            unitOfWork.PhotoRepository.Update(updateMainPhoto);
-            unitOfWork.Save();
+            _unitOfWork.PhotoRepository.Update(updatePhoto);
+            _unitOfWork.PhotoRepository.Update(updateMainPhoto);
+            _unitOfWork.Save();
             
             return updatePhoto.ProductId;
         }
