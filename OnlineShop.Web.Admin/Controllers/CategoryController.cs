@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OnlineShop.BLL.DTOs.CategoryDTOs;
 using OnlineShop.BLL.Services.Abstractions;
@@ -6,6 +7,7 @@ using OnlineShop.Web.Admin.ViewModels.CategoryViewModels;
 
 namespace OnlineShop.Web.Admin.Controllers
 {
+    [Authorize]
     public class CategoryController : Controller
     {
         private readonly ICategoryService _categoryService;
@@ -22,13 +24,13 @@ namespace OnlineShop.Web.Admin.Controllers
         {
             var categoryViewModel = _mapper.Map<List<GetCategoryViewModel>>(_categoryService.GetAll());
 
-            return PartialView(categoryViewModel);
+            return View(categoryViewModel);
         }
 
         [HttpGet]
         public IActionResult AddCategory()
         {
-            return View();
+            return PartialView();
         }
 
         [HttpPost]
@@ -67,9 +69,18 @@ namespace OnlineShop.Web.Admin.Controllers
             return UpdateCategory(updateCategory.Id);
         }
 
-        public void RemoveCategory(int categoryID)
+        [HttpGet]
+        public IActionResult DeleteCategory()
         {
-            _categoryService.Remove(categoryID);
+            return PartialView();
+        }
+
+        [HttpPost]
+        public IActionResult DeleteCategory(DeleteCategoryViewModel deleteCategoryViewModel)
+        {
+            _categoryService.Delete(deleteCategoryViewModel.Id);
+
+            return RedirectToAction("GetCategories");
         }
     }
 }

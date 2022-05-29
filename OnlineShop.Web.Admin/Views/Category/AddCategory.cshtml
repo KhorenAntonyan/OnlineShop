@@ -1,19 +1,31 @@
 ﻿@model AddCategoryViewModel
 
-<form class="row pt-5 m-auto col-5" asp-action="AddCategory" method="post">
-    <div asp-validation-summary="ModelOnly"></div>
-    <div class="mb-3">
-        <label for="inputCategoryName" class="form-label">CategoryName</label>
-        <input type="text" class="form-control" asp-for="CategoryName">
-        <span asp-validation-for="CategoryName"></span>
+<div class="modal fade" id="addCategory">
+    <div class="modal-dialog">
+        <div class="modal-content p-2">
+            <div class="modl-header d-flex justify-content-between">
+                <h5 class="modal-title" id="addCategoryLabel" style="margin-left:40%;">Add Category</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form class="row pt-5 m-auto col-12" asp-action="AddCategory" method="post">
+                    <div asp-validation-summary="ModelOnly"></div>
+                    <div class="mb-3">
+                        <label for="inputCategoryName" class="form-label">CategoryName</label>
+                        <input type="text" class="form-control" asp-for="CategoryName">
+                        <span asp-validation-for="CategoryName"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label for="inputDescription" class="form-label">Description</label>
+                        <textarea class="form-control" asp-for="Description"></textarea>
+                        <span asp-validation-for="Description"></span>
+                    </div>
+                    <div class="col-12">
+                        <button type="submit" class="btn btn-primary">Add</button>
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cansel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
-    <div class="mb-3">
-        <label for="inputDescription" class="form-label">Description</label>
-        <textarea class="form-control" asp-for="Description"></textarea>
-        <span asp-validation-for="Description"></span>
-    </div>
-        <div class="col-12">
-        <button type="submit" class="btn btn-primary">Add</button>
-        <button type="button" class="btn btn-danger" onclick="location.href='@Url.Action("Category", "Category")'">Cansel</button>
-    </div>
-</form>
+</div>

@@ -1,5 +1,4 @@
 ﻿using OnlineShop.DAL.Entities;
-using System.Linq.Expressions;
 
 namespace OnlineShop.DAL.Repositories.Abstractions
 {
@@ -8,7 +7,7 @@ namespace OnlineShop.DAL.Repositories.Abstractions
         TEntity Add(TEntity entity);
         TEntity Update(TEntity entity);
         IQueryable<TEntity> GetAll();
-        void Remove(TEntity entity);
+        void Delete(TEntity entity);
         TEntity FindById(int id);
     }
 }

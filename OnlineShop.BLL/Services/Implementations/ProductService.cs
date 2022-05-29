@@ -18,6 +18,7 @@ namespace OnlineShop.BLL.Services.Implementations
             _mapper = mapper;
             _photoService = photoService;
         }
+
         public void Add(AddProductDTO addProductDTO)
         {
             var photos = _photoService.AddFiles(addProductDTO.PhotoFiles, addProductDTO.Id);
@@ -35,15 +36,15 @@ namespace OnlineShop.BLL.Services.Implementations
 
         public IEnumerable<GetProductDTO> GetAll()
         {
-            var addProduct = _mapper.Map<List<GetProductDTO>>(_unitOfWork.ProductRepository.GetAll());
+            var products = _mapper.Map<List<GetProductDTO>>(_unitOfWork.ProductRepository.GetAll());
 
-            return addProduct;
+            return products;
         }
 
-        public void Remove(int productId)
+        public void Delete(int productId)
         {
             Product product = _unitOfWork.ProductRepository.FindById(productId);
-            _unitOfWork.ProductRepository.Remove(product);
+            _unitOfWork.ProductRepository.Delete(product);
             _unitOfWork.Save();
         }
 

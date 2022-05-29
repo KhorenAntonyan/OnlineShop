@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using OnlineShop.BLL.DTOs.PhotoDTOs;
 using OnlineShop.BLL.Services.Abstractions;
-using OnlineShop.Web.Admin.ViewModels.PhotoViewModels;
 
 namespace OnlineShop.Web.Admin.Controllers
 {
+    [Authorize]
     public class PhotoController : Controller
     {
         public readonly IPhotoService _photoService;
@@ -19,11 +19,11 @@ namespace OnlineShop.Web.Admin.Controllers
             _mapper = mapper;
         }
 
-        public IActionResult RemovePhoto(string photoName)
+        public IActionResult DeletePhoto(string photoName)
         {
             var photo = _photoService.Find(photoName);
 
-            _photoService.Remove(photo.Id);
+            _photoService.Delete(photo.Id);
 
             var photoPath = Path.Combine(_hostEnvironment.WebRootPath, "img", photo.PhotoURL);
             if (System.IO.File.Exists(photoPath))
@@ -32,7 +32,6 @@ namespace OnlineShop.Web.Admin.Controllers
             return RedirectToAction("UpdateProduct", "Product", new { productId = photo.ProductId });
         }
 
-        //[HttpPost]
         [Route("Photo/UpdateMainPhoto/{photoId}/{mainPhotoId}")]
         public IActionResult UpdateMainPhoto(int photoId, int mainPhotoId)
         {

@@ -1,14 +1,14 @@
-﻿@model DeleteProductViewModel
+﻿@model DeleteCategoryViewModel
 
 <div class="modal fade">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Are you sure you want to delete this product?</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Are you sure you want to delete this category?</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form asp-action="DeleteProduct">
+                <form asp-action="DeleteCategory">
                     <input class="hiddenId" type="hidden" asp-for="Id">
                     <div class="col-12">
                         <button type="submit" class="btn btn-primary">Delete</button>

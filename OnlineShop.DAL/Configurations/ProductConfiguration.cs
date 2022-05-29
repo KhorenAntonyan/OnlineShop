@@ -25,12 +25,14 @@ namespace OnlineShop.DAL.Configurations
                 .HasPrecision(38, 18)
                 .IsRequired();
 
-            //builder.Property<int>("CategoryForeignKey");
+            builder.Property(p => p.CategoryId)
+                .IsRequired(false);
 
             builder
                 .HasOne(p => p.Category)
                 .WithMany(p => p.Products)
-                .HasForeignKey("CategoryId");
+                .HasForeignKey("CategoryId")
+                .OnDelete(DeleteBehavior.SetNull);
 
         }
     }

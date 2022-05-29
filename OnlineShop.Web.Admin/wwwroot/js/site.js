@@ -1,25 +1,25 @@
 ﻿$(function () {
-    $(".callPartialRenderBody").on("click", function (e) {
+    var partialModal = $('#Modal');
+    $(".addModal").on("click", function (e) {
         e.preventDefault();
         var url = $(this).attr("href");
-        $.ajax({
-            url: url,
-            type: 'GET',
-            dataType: 'html',
-            success: function (data) {
-                $('#partialRenderBody').html(data);
-            }
+        $.get(url).done(function (data) {
+            partialModal.html(data);
+            partialModal.find('.modal').modal('show');
         });
     });
 });
 
 $(function () {
-    var partialRenderBody = $('#partialRenderBody');
-    $('button[data-toggle="modal"]').click(function (event) {
-        var url = $(this).data('url');
+    var partialModal = $('#Modal');
+    $(".deleteModal").on("click", function (e) {
+        e.preventDefault();
+        var url = $(this).attr("href");
+        var hiddenId = $(this).data("id");
         $.get(url).done(function (data) {
-            partialRenderBody.html(data);
-            partialRenderBody.find('.modal').modal('show');
-        })
-    })
+            partialModal.html(data);
+            partialModal.find('.modal').modal('show');
+            $(".modal-body .hiddenId").val(hiddenId);
+        });
+    });
 });
