@@ -15,7 +15,8 @@ namespace OnlineShop.DAL.Configurations
                 .IsRequired();
 
             builder.Property(p => p.IsDeleted)
-                .IsRequired();
+                .IsRequired(false)
+                .HasDefaultValue(null);
         }
     }
 }

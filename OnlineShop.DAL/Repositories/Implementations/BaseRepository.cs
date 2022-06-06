@@ -24,17 +24,18 @@ namespace OnlineShop.DAL.Repositories.Implementations
 
         public virtual TEntity FindById(int id)
         {
-            return _dbSet.Find(id);
+            return _dbSet.FirstOrDefault(e => e.Id == id && e.IsDeleted == null);
         }
 
         public virtual IQueryable<TEntity> GetAll()
         {
-            return _dbSet.ToList().AsQueryable();
+            return _dbSet.Where(b => b.IsDeleted == null).ToList().AsQueryable();
         }
 
-        public void Delete(TEntity entity)
+        public virtual void Delete(TEntity entity)
         {
-            _dbSet.Remove(entity);
+            BaseEntity baseEntity = (BaseEntity)entity;
+            baseEntity.IsDeleted = DateTime.UtcNow;
         }
 
         public TEntity Update(TEntity entity)

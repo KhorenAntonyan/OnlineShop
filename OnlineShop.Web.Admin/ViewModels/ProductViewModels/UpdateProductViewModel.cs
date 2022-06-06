@@ -10,8 +10,8 @@ namespace OnlineShop.Web.Admin.ViewModels.ProductViewModels
 
         [Required(ErrorMessage = "Please choose product category")]
         public int CategoryId { get; set; }
-        public IEnumerable<SelectListItem> Categories { get; set; }
-        public string CategoryName { get; set; }
+        public IEnumerable<SelectListItem>? Categories { get; set; }
+        public string? CategoryName { get; set; }
 
         [Required(ErrorMessage = "Please enter product name")]
         public string ProductName { get; set; }

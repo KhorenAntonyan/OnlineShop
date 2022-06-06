@@ -4,28 +4,38 @@
 
 <div id="Modal"></div>
 
-<a class="btn btn-outline-primary mb-3 addModal" href="/Category/AddCategory"><i class="fa-solid fa-plus fas"></i>Add Category</a>
+<div class="container mt-3">
+    <div class="col-6" style="float:left;">
+        <a class="btn btn-outline-primary mb-3 addModal" href="/Category/AddCategory"><i class="fa-solid fa-plus fas"></i>Add Category</a>
 
-<table class="table table-striped indextable">
-    <thead>
-        <tr>
-            <th scope="col">Id </th>
-            <th scope="col">CategoryName</th>
-            <th scope="col">Description</th>
-            <th scope="col">CreatedDate</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
+    </div>
+    <div class="col-3" style="float:right;">
+        <input class="form-control" id="Search" type="search" placeholder="Search">
+    </div>
+</div>
+
+<div class="tableFixHead" style="width:100%;">
+    <table class="table table-striped indextable">
+        <thead>
             <tr>
-                <td scope="row">@item.Id</td>
-                <td scope="row">@item.CategoryName</td>
-                <td scope="row">@item.Description</td>
-                <td scope="row">@item.CreatedDate</td>
-                <td scope="row"><button type="submit" class="btn btn-outline-primary" style="margin-right: 10px" onclick="window.location = '@Url.Action("UpdateCategory", "Category", new { categoryId = item.Id })'"><i class="fa-solid fa-pen fas p-0"></i></button></td>
-                <td scope="row"><button class="btn btn-outline-danger mb-3 deleteModal" data-id="@item.Id" href="/Category/DeleteCategory"><i class="fa-solid fa-trash fas p-0"></i></button></td>
+                <th scope="col">Id </th>
+                <th scope="col">CategoryName</th>
+                <th scope="col">Description</th>
+                <th scope="col">CreatedDate</th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr class="Search">
+                    <td scope="row">@item.Id</td>
+                    <td scope="row">@item.CategoryName</td>
+                    <td scope="row">@item.Description</td>
+                    <td scope="row">@item.CreatedDate</td>
+                    <td scope="row"><button type="submit" class="btn btn-outline-primary" style="margin-right: 10px" onclick="window.location = '@Url.Action("UpdateCategory", "Category", new { categoryId = item.Id })'"><i class="fa-solid fa-pen fas p-0"></i></button></td>
+                    <td scope="row"><button class="btn btn-outline-danger mb-3 deleteModal" data-id="@item.Id" href="/Category/DeleteCategory"><i class="fa-solid fa-trash fas p-0"></i></button></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

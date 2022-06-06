@@ -6,6 +6,6 @@ namespace OnlineShop.DAL.Entities
         public int Id { get; set; }
         public DateTime CreatedDate { get; set; } = DateTime.UtcNow;
         public DateTime ModifiedDate { get; set; }
-        public bool IsDeleted { get; set; } = false;
+        public DateTime? IsDeleted { get; set; }
     }
 }

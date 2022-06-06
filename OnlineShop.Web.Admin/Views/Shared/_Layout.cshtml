@@ -20,21 +20,19 @@
         {
             <ul>
                 <li>
-                    <a href="/Product/GetProducts"><i class="fas fa-solid fa-list"></i>Product</a>
+                    <a href="/Product/GetProducts"><i class="fas fa-solid fa-list"></i>Products</a>
                 </li>
                 <li>
-                    <a href="/Category/GetCategories"><i class="fas fa-solid fa-list"></i>Category</a>
+                    <a href="/Category/GetCategories"><i class="fas fa-solid fa-list"></i>Categories</a>
                 </li>
             </ul>
         }
         <div class="user-bar">
             @if (User.Identity.IsAuthenticated)
             {
-                <p style="color:white; padding: 0 5px;">@User.Identity.Name</p>
-
                 <form method="post" asp-controller="Account" asp-action="Logout">
                     <input type="submit" value="Logout" />
-                </form>
+                </form> 
             }
             else
             {
