@@ -15,12 +15,20 @@ namespace OnlineShop.DAL.Repositories.Implementations
 
         public override IQueryable<Product> GetAll()
         {
-            return _dbSet.Include(p => p.Photos).Include(c => c.Category).DefaultIfEmpty().ToList().AsQueryable();
+            return _dbSet
+                .Include(p => p.Photos)
+                .Include(c => c.Category)
+                .Where(p => p.IsDeleted == null)
+                .ToList()
+                .AsQueryable();
         }
 
         public override Product FindById(int id)
         {
-            return _dbSet.Include(p => p.Photos).Include(c => c.Category).FirstOrDefault(p => p.Id == id);
+            return _dbSet
+                .Include(p => p.Photos)
+                .Include(c => c.Category)
+                .FirstOrDefault(p => p.Id == id && p.IsDeleted == null);
         }
     }
 }

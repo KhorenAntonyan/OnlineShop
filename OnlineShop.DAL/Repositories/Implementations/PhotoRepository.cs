@@ -15,7 +15,7 @@ namespace OnlineShop.DAL.Repositories.Implementations
 
         public Photo Find(string photoName)
         {
-            return _dbSet.FirstOrDefault(p => p.PhotoURL == photoName);
+            return _dbSet.FirstOrDefault(p => p.PhotoURL == photoName && p.IsDeleted == null);
         }
 
     }

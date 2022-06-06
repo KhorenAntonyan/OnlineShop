@@ -6,6 +6,6 @@ namespace OnlineShop.DAL.Entities
         int Id { get; set; }
         DateTime CreatedDate { get; set; }
         DateTime ModifiedDate { get; set; }
-        bool IsDeleted { get; set; }
+        DateTime? IsDeleted { get; set; }
     }
 }

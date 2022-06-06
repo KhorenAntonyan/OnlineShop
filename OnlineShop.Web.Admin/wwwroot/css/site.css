@@ -87,7 +87,7 @@ body {
         display: flex;
     }
 
-        .sidebar .user-bar a {
+        .sidebar .user-bar a, .sidebar .user-bar form input {
             display: block;
             width: 80px;
             background: #594f8d;
@@ -101,7 +101,7 @@ body {
             text-decoration: none;
         }
 
-            .sidebar .user-bar a:hover {
+            .sidebar .user-bar a:hover, .sidebar .user-bar form input:hover {
                 color: #fff;
             }
 
@@ -114,6 +114,50 @@ body {
     margin-left: 200px;
     padding: 50px;
 }
+
+.tableFixHead {
+    overflow-y: auto;
+    height: 300px;
+}
+
+    .tableFixHead thead th {
+        position: sticky;
+        top: 0;
+    }
+
+    .tableFixHead table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+/*    .tableFixHead th, td {
+        padding: 8px 16px;
+        border: 1px solid #ccc;
+    }*/
+
+    .tableFixHead th {
+        background: #eee;
+    }
+
+    .tableFixHead::-webkit-scrollbar {
+        width: 16px;
+    }
+
+    .tableFixHead::-webkit-scrollbar-track {
+        background-color: #e4e4e4;
+        border-radius: 100px;
+    }
+
+    .tableFixHead::-webkit-scrollbar-thumb {
+        border: 5px solid transparent;
+        border-radius: 100px;
+        background-color: #8070d4;
+        background-clip: content-box;
+        /*        border-radius: 100px;
+        background: #8070D4;
+        border: 6px solid rgba(0,0,0,0.2);*/
+    }
+
 
 @media (max-height: 500px) {
     .user-bar {

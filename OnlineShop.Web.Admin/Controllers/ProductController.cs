@@ -39,7 +39,7 @@ namespace OnlineShop.Web.Admin.Controllers
         public IActionResult AddProduct()
         {
             ViewBag.Categories = new SelectList(_categoryService.GetAll(), "Id", "CategoryName");
-            
+
             return PartialView();
         }
 
@@ -67,7 +67,7 @@ namespace OnlineShop.Web.Admin.Controllers
         public IActionResult UpdateProduct(int productId)
         {
             var updateProduct = _mapper.Map<UpdateProductViewModel>(_productService.FindById(productId));
-            updateProduct.Categories = new SelectList(_categoryService.GetAll(), "Id", "CategoryName", selectedValue: new {Id = updateProduct.CategoryId});
+            updateProduct.Categories = new SelectList(_categoryService.GetAll(), "Id", "CategoryName", selectedValue: new { Id = updateProduct.CategoryId });
 
             return View(updateProduct);
         }
@@ -109,7 +109,7 @@ namespace OnlineShop.Web.Admin.Controllers
         {
             var removeProduct = _productService.FindById(deleteProductViewModel.Id);
 
-            foreach(var photo in removeProduct.Photos)
+            foreach (var photo in removeProduct.Photos)
             {
                 var photoPath = Path.Combine(_hostEnvironment.WebRootPath, "img", photo.PhotoURL);
                 if (System.IO.File.Exists(photoPath))
