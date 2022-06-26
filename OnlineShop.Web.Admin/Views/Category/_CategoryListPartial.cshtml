@@ -1,0 +1,14 @@
+﻿@model List<GetCategoryViewModel>
+
+@foreach (var item in Model)
+{
+    <tr class="Search">
+        <td scope="row">@item.Id</td>
+        <td scope="row">@item.CategoryName</td>
+        <td scope="row">@item.Description</td>
+        <td scope="row">@item.CreatedDate</td>
+        <td scope="row"><button type="submit" class="btn btn-outline-primary" style="margin-right: 10px" onclick="window.location = '@Url.Action("UpdateCategory", "Category", new { categoryId = item.Id })'"><i class="fa-solid fa-pen fas p-0"></i></button></td>
+        <td scope="row"><button class="btn btn-outline-danger mb-3 deleteModal" data-id="@item.Id" href="/Category/DeleteCategory"><i class="fa-solid fa-trash fas p-0"></i></button></td>
+    </tr>
+}
+

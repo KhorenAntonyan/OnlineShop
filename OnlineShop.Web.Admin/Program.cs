@@ -31,6 +31,7 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IPhotoService, PhotoService>();
+builder.Services.AddSingleton<IFilterService, FilterService>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 builder.Services.AddMvc().AddRazorPagesOptions(options => {

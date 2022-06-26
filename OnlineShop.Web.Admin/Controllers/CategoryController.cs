@@ -22,9 +22,9 @@ namespace OnlineShop.Web.Admin.Controllers
         [HttpGet]
         public IActionResult GetCategories()
         {
-            var categoryViewModel = _mapper.Map<List<GetCategoryViewModel>>(_categoryService.GetAll());
+            var categories = _mapper.Map<List<GetCategoryViewModel>>(_categoryService.GetAll());
 
-            return View(categoryViewModel);
+            return View(categories);
         }
 
         [HttpGet]
@@ -81,6 +81,14 @@ namespace OnlineShop.Web.Admin.Controllers
             _categoryService.Delete(deleteCategoryViewModel.Id);
 
             return RedirectToAction("GetCategories");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> CategorySorting(string sortingBy)
+        {
+            var categories = _mapper.Map<List<GetCategoryViewModel>>(await _categoryService.CategorySorting(sortingBy));
+
+            return ViewComponent("CategoryList", categories);
         }
     }
 }

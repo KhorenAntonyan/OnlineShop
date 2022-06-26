@@ -4,13 +4,24 @@
 
 <div id="Modal"></div>
 
-<div class="container mt-3">
-    <div class="col-6" style="float:left;">
+<div class="mt-3">
+    <div class="float-start">
         <a class="btn btn-outline-primary mb-3 addModal" href="/Category/AddCategory"><i class="fa-solid fa-plus fas"></i>Add Category</a>
-
     </div>
-    <div class="col-3" style="float:right;">
+    <div class="float-end">
         <input class="form-control" id="Search" type="search" placeholder="Search">
+  </div>
+</div>
+
+<div style="margin-top:7%;">
+    <div class="btn-group float-end mb-3">
+        <button type="button" class="btn btn-outline-primary" data-bs-toggle="dropdown" aria-expanded="false" style="border:none;"><i class="fa-solid fa-arrow-down-short-wide fas"></i>Sort by</button>
+        <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="/Category/CategorySorting?sortingBy=id">Id</a></li>
+            <li><a class="dropdown-item" href="/Category/CategorySorting?sortingBy=createdDate">Created Date</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="/Category/CategorySorting?sortingBy=reset"><i class="fa-solid fa-trash fas"></i>Reset</a></li>
+        </ul>
     </div>
 </div>
 
@@ -24,18 +35,8 @@
                 <th scope="col">CreatedDate</th>
             </tr>
         </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
-                <tr class="Search">
-                    <td scope="row">@item.Id</td>
-                    <td scope="row">@item.CategoryName</td>
-                    <td scope="row">@item.Description</td>
-                    <td scope="row">@item.CreatedDate</td>
-                    <td scope="row"><button type="submit" class="btn btn-outline-primary" style="margin-right: 10px" onclick="window.location = '@Url.Action("UpdateCategory", "Category", new { categoryId = item.Id })'"><i class="fa-solid fa-pen fas p-0"></i></button></td>
-                    <td scope="row"><button class="btn btn-outline-danger mb-3 deleteModal" data-id="@item.Id" href="/Category/DeleteCategory"><i class="fa-solid fa-trash fas p-0"></i></button></td>
-                </tr>
-            }
+        <tbody class="listPartial">
+            @await Component.InvokeAsync("CategoryList", Model)
         </tbody>
     </table>
 </div>

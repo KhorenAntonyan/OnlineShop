@@ -10,5 +10,6 @@ namespace OnlineShop.BLL.Services.Abstractions
         public GetCategoryDTO FindById(int categoryId);
         void Update(UpdateCategoryDTO updateCategoryDTO);
         void Delete(int categoryId);
+        Task<List<GetCategoryDTO>> CategorySorting(string sortingBy);
     }
 }
