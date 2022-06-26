@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using OnlineShop.BLL.DTOs.ProductDTOs;
 using OnlineShop.BLL.Services.Abstractions;
+using OnlineShop.Core.Enums;
 using OnlineShop.Web.Admin.ViewModels.ProductViewModels;
 
 namespace OnlineShop.Web.Admin.Controllers
@@ -27,11 +28,10 @@ namespace OnlineShop.Web.Admin.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetProducts()
+        public async Task<IActionResult> GetProducts()
         {
-            var products = _mapper.Map<List<GetProductViewModel>>(_productService.GetAll());
+            var products = _mapper.Map<List<GetProductViewModel>>(await _productService.GetAll());
 
-            //return PartialView(products);
             return View(products);
         }
 
@@ -44,6 +44,7 @@ namespace OnlineShop.Web.Admin.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult AddProduct(AddProductViewModel addProduct)
         {
             if (ModelState.IsValid)
@@ -60,7 +61,6 @@ namespace OnlineShop.Web.Admin.Controllers
             }
 
             return View(addProduct);
-
         }
 
         [HttpGet]
@@ -94,7 +94,6 @@ namespace OnlineShop.Web.Admin.Controllers
                 return RedirectToAction("GetProducts");
             }
 
-
             return UpdateProduct(updateProduct.Id);
         }
 
@@ -119,6 +118,14 @@ namespace OnlineShop.Web.Admin.Controllers
             _productService.Delete(deleteProductViewModel.Id);
 
             return RedirectToAction("GetProducts");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> ProductSorting(string sortingBy)
+        {
+            var products = _mapper.Map<List<GetProductViewModel>>(await _productService.ProductSorting(sortingBy));
+
+            return ViewComponent("ProductList", products);
         }
     }
 }

@@ -117,7 +117,7 @@ body {
 
 .tableFixHead {
     overflow-y: auto;
-    height: 300px;
+    height: 480px;    
 }
 
     .tableFixHead thead th {

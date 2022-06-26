@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using OnlineShop.BLL.DTOs.CategoryDTOs;
 using OnlineShop.BLL.Services.Abstractions;
+using OnlineShop.Core.Enums;
 using OnlineShop.DAL.Entities;
 using OnlineShop.DAL.Repositories.Abstractions;
 
@@ -10,11 +11,13 @@ namespace OnlineShop.BLL.Services.Implementations
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+        private readonly IFilterService _filterService;
 
-        public CategoryService(IUnitOfWork unitOfWork, IMapper mapper)
+        public CategoryService(IUnitOfWork unitOfWork, IMapper mapper, IFilterService filterService)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _filterService = filterService;
         }
 
         public void Add(AddCategoryDTO addCategoryDTO)
@@ -48,6 +51,45 @@ namespace OnlineShop.BLL.Services.Implementations
             var updateCategory = _mapper.Map<Category>(updateCategoryDTO);
             _unitOfWork.CategoryRepository.Update(updateCategory);
             _unitOfWork.Save();
+        }
+
+        public async Task<List<GetCategoryDTO>> CategorySorting(string sortingBy)
+        {
+            var categories = _mapper.Map<List<GetCategoryDTO>>(_unitOfWork.CategoryRepository.GetAll());
+
+            switch (sortingBy)
+            {
+                case "id":
+                    if (_filterService.Id.OrderBy == SortingOrder.Asc)
+                    {
+                        categories = categories.OrderBy(p => p.Id).ToList();
+                        _filterService.Id.OrderBy = SortingOrder.Desc;
+                    }
+                    else
+                    {
+                        categories = categories.OrderByDescending(p => p.Id).ToList();
+                        _filterService.Id.OrderBy = SortingOrder.Asc;
+                    }
+                    break;
+                case "createdDate":
+                    if (_filterService.CategoryCreatedDate.OrderBy == SortingOrder.Asc)
+                    {
+                        categories = categories.OrderBy(p => p.CreatedDate).ToList();
+                        _filterService.CategoryCreatedDate.OrderBy = SortingOrder.Desc;
+                    }
+                    else
+                    {
+                        categories = categories.OrderByDescending(p => p.CreatedDate).ToList();
+                        _filterService.CategoryCreatedDate.OrderBy = SortingOrder.Asc;
+                    }
+                    break;
+                case "reset":
+                    _filterService.Id.OrderBy = SortingOrder.Asc;
+                    _filterService.CategoryCreatedDate.OrderBy = SortingOrder.Asc;
+                    break;
+            }
+
+            return categories;
         }
     }
 }

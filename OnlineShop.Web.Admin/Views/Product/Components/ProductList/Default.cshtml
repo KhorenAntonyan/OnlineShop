@@ -1,0 +1,25 @@
+﻿@model List<GetProductViewModel>
+
+@foreach (var item in Model)
+{
+    <tr class="tableTbody">
+        <td scope="row">
+            @foreach (var photo in item.Photos)
+            {
+                if (photo.IsMain == true)
+                {
+                    <img style="width:100%; height:80px;" src='@Url.Content("~/img/" + photo.PhotoURL)' />
+                }
+            }
+        </td>
+        <td scope="row">@item.Id</td>
+        <td scope="row">@item.ProductName</td>
+        <td scope="row">@item.CategoryName</td>
+        <td scope="row">@item.Description</td>
+        <td scope="row">@item.Quantity</td>
+        <td scope="row">@string.Format("{0:C}", @item.Price)</td>
+        <td scope="row">@item.CreatedDate</td>
+        <td scope="row"><button type="submit" class="btn btn-outline-primary" style="margin-right: 10px" onclick="location.href='@Url.Action("UpdateProduct", "Product", new { productId = item.Id })'"><i class="fa-solid fa-pen fas p-0"></i></button></td>
+        <td scope="row"><button class="btn btn-outline-danger mb-3 deleteModal" data-id="@item.Id" href="/Product/DeleteProduct"><i class="fa-solid fa-trash fas p-0"></i></button></td>
+    </tr>
+}
