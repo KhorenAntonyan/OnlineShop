@@ -1,7 +1,6 @@
-﻿
-namespace OnlineShop.BLL.DTOs.ProductDTOs
+﻿namespace OnlineShop.Web.Admin.ViewModels.ProductViewModels
 {
-    public class ProductFilterDTO
+    public class ProductFilterViewModel
     {
         public int? PriceRange { get; set; }
         public int? CategoryId { get; set; }

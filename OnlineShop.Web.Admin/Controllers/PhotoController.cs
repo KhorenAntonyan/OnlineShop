@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using OnlineShop.BLL.DTOs.PhotoDTOs;
 using OnlineShop.BLL.Services.Abstractions;
+using OnlineShop.Web.Admin.ViewModels.PhotoViewModels;
 
 namespace OnlineShop.Web.Admin.Controllers
 {
@@ -19,25 +21,24 @@ namespace OnlineShop.Web.Admin.Controllers
             _mapper = mapper;
         }
 
-        public IActionResult DeletePhoto(string photoName)
+        public async Task<IActionResult> DeletePhoto(string photoName)
         {
-            var photo = _photoService.Find(photoName);
+            var photo = await _photoService.Find(photoName);
+            await _photoService.Delete(photo.Id);
 
-            _photoService.Delete(photo.Id);
-
-            var photoPath = Path.Combine(_hostEnvironment.WebRootPath, "img", photo.PhotoURL);
-            if (System.IO.File.Exists(photoPath))
-                System.IO.File.Delete(photoPath);
+            //var photoPath = Path.Combine(_hostEnvironment.WebRootPath, "img", photo.PhotoURL);
+            //if (System.IO.File.Exists(photoPath))
+            //    System.IO.File.Delete(photoPath);
 
             return RedirectToAction("UpdateProduct", "Product", new { productId = photo.ProductId });
         }
 
-        [Route("Photo/UpdateMainPhoto/{photoId}/{mainPhotoId}")]
-        public IActionResult UpdateMainPhoto(int photoId, int mainPhotoId)
+        [HttpGet]
+        public async Task<IActionResult> UpdateMainPhoto(UpdateMainPhotoViewModel updateMainPhoto)
         {
-            var productId = _photoService.UpdateMainPhoto(photoId, mainPhotoId);
+            var productId = await _photoService.UpdateMainPhoto(_mapper.Map<UpdateMainPhotoDTO>(updateMainPhoto));
 
-            return RedirectToAction("UpdateProduct", "Product", new { productId = productId });
+            return RedirectToAction("UpdateProduct", "Product", productId);
         }
     }
 }

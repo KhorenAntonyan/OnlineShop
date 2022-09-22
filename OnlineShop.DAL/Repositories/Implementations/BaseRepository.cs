@@ -32,6 +32,11 @@ namespace OnlineShop.DAL.Repositories.Implementations
             return _dbSet.Where(b => b.IsDeleted == null).ToList().AsQueryable();
         }
 
+        public virtual IQueryable<TEntity> GetAllQuery()
+        {
+            return _dbSet;
+        }
+
         public virtual void Delete(TEntity entity)
         {
             BaseEntity baseEntity = (BaseEntity)entity;

@@ -2,8 +2,10 @@
 using OnlineShop.BLL.DTOs.ProductDTOs;
 using OnlineShop.BLL.Services.Abstractions;
 using OnlineShop.Core.Enums;
+using OnlineShop.Core.Extensions;
 using OnlineShop.DAL.Entities;
 using OnlineShop.DAL.Repositories.Abstractions;
+using System.Linq.Expressions;
 
 namespace OnlineShop.BLL.Services.Implementations
 {
@@ -22,16 +24,16 @@ namespace OnlineShop.BLL.Services.Implementations
             _filterService = filterService;
         }
 
-        public void Add(AddProductDTO addProductDTO)
+        public async Task Add(AddProductDTO addProductDTO)
         {
-            var photos = _photoService.AddFiles(addProductDTO.PhotoFiles, addProductDTO.Id);
+            var photos = await _photoService.AddFiles(addProductDTO.PhotoFiles, addProductDTO.Id);
             var product = _mapper.Map<Product>(addProductDTO);
             product.Photos = photos;
             _unitOfWork.ProductRepository.Add(product);
             _unitOfWork.Save();
         }
 
-        public GetProductDTO FindById(int productId)
+        public async Task<GetProductDTO> FindById(int productId)
         {
             var product = _mapper.Map<GetProductDTO>(_unitOfWork.ProductRepository.FindById(productId));
             return product;
@@ -44,14 +46,14 @@ namespace OnlineShop.BLL.Services.Implementations
             return products;
         }
 
-        public void Delete(int productId)
+        public async Task Delete(int productId)
         {
             Product product = _unitOfWork.ProductRepository.FindById(productId);
             _unitOfWork.ProductRepository.Delete(product);
             _unitOfWork.Save();
         }
 
-        public void Update(UpdateProductDTO updateProductDTO)
+        public async Task Update(UpdateProductDTO updateProductDTO)
         {
             var updateProduct = _mapper.Map<Product>(updateProductDTO);
             _unitOfWork.ProductRepository.Update(updateProduct);
@@ -108,6 +110,50 @@ namespace OnlineShop.BLL.Services.Implementations
             }
 
             return products;
+        }
+
+        public async Task<List<GetProductDTO>> GetProductsByFilter(ProductFilterDTO productFilters)
+        {
+            Func<Product, bool> findFunction = (p) => p != null;
+
+            if (productFilters.PriceRange != null)
+            {
+                switch (productFilters.PriceRange)
+                {
+                    case 1:
+                        findFunction = findFunction.And(p => p.Price <= 50);
+                        break;
+                    case 2:
+                        findFunction = findFunction.And(p => p.Price >= 51 && p.Price <= 100);
+                        break;
+                    case 3:
+                        findFunction = findFunction.And(p => p.Price >= 101 && p.Price <= 150);
+                        break;
+                    case 4:
+                        findFunction = findFunction.And(p => p.Price >= 151);
+                        break;
+                }
+            }
+
+            if(productFilters.CategoryId != null)
+            {
+                findFunction = findFunction.And(p => p.CategoryId == productFilters.CategoryId);
+            }
+
+            if (productFilters.DateTimeFrom != null)
+            {
+                findFunction = findFunction.And(p => p.CreatedDate >= productFilters.DateTimeFrom);
+            }
+
+            if (productFilters.DateTimeTo != null)
+            {
+                findFunction = findFunction.And(p => p.CreatedDate <= productFilters.DateTimeTo);
+            }
+
+            var products = _unitOfWork.ProductRepository.GetByFilter(findFunction);
+            var p = _mapper.Map<IEnumerable<GetProductDTO>>(products);
+
+            return p.ToList();
         }
     }
 }

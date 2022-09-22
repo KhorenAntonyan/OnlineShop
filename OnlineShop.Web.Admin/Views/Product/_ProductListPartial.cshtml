@@ -20,6 +20,6 @@
         <td scope="row">@string.Format("{0:C}", @item.Price)</td>
         <td scope="row">@item.CreatedDate</td>
         <td scope="row"><button type="submit" class="btn btn-outline-primary" style="margin-right: 10px" onclick="location.href='@Url.Action("UpdateProduct", "Product", new { productId = item.Id })'"><i class="fa-solid fa-pen fas p-0"></i></button></td>
-        <td scope="row"><button class="btn btn-outline-danger mb-3 deleteModal" data-id="@item.Id" href="/Product/DeleteProduct"><i class="fa-solid fa-trash fas p-0"></i></button></td>
+        <td scope="row"><button type="submit" class="btn btn-outline-danger mb-3 deleteModal" data-id="@item.Id" href="/Product/DeleteProduct"><i class="fa-solid fa-trash fas p-0"></i></button></td>
     </tr>
 }

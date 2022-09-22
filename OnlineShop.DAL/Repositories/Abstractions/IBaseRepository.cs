@@ -7,6 +7,7 @@ namespace OnlineShop.DAL.Repositories.Abstractions
         TEntity Add(TEntity entity);
         TEntity Update(TEntity entity);
         IQueryable<TEntity> GetAll();
+        IQueryable<TEntity> GetAllQuery();
         void Delete(TEntity entity);
         TEntity FindById(int id);
     }

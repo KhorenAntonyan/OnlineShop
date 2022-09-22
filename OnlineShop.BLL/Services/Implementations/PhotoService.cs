@@ -21,14 +21,14 @@ namespace OnlineShop.BLL.Services.Implementations
             _hostEnvironment = hostEnvironment;
         }
 
-        public void Add(AddPhotoDTO addPhotoDTO)
+        public async Task Add(AddPhotoDTO addPhotoDTO)
         {
             var photo = _mapper.Map<Photo>(addPhotoDTO);
             _unitOfWork.PhotoRepository.Add(photo);
             _unitOfWork.Save();
         }
 
-        public List<Photo> AddFiles(List<IFormFile> photos, int productId)
+        public async Task<List<Photo>> AddFiles(List<IFormFile> photos, int productId)
         {
             List<Photo> photoList = new List<Photo>();
 
@@ -69,23 +69,28 @@ namespace OnlineShop.BLL.Services.Implementations
             return photoList;
         }
 
-        public GetPhotoDTO Find(string photoName)
+        public async Task<GetPhotoDTO> Find(string photoName)
         {
             var photo = _mapper.Map<GetPhotoDTO>(_unitOfWork.PhotoRepository.Find(photoName));
             return photo;
         }
 
-        public void Delete(int photoId)
+        public async Task Delete(int photoId)
         {
             Photo photo = _unitOfWork.PhotoRepository.FindById(photoId);
+
+            var photoPath = Path.Combine(_hostEnvironment.WebRootPath, "img", photo.PhotoURL);
+            if (File.Exists(photoPath))
+                File.Delete(photoPath);
+
             _unitOfWork.PhotoRepository.Delete(photo);
             _unitOfWork.Save();
         }
 
-        public int UpdateMainPhoto(int photoId, int mainPhotoId)
+        public async Task<int> UpdateMainPhoto(UpdateMainPhotoDTO updateMainPhotoDTO)
         {
-            Photo updatePhoto = _unitOfWork.PhotoRepository.FindById(photoId);
-            Photo updateMainPhoto = _unitOfWork.PhotoRepository.FindById(mainPhotoId);
+            Photo updatePhoto = _unitOfWork.PhotoRepository.FindById(updateMainPhotoDTO.PhotoId);
+            Photo updateMainPhoto = _unitOfWork.PhotoRepository.FindById(updateMainPhotoDTO.MainPhotoId);
             updatePhoto.IsMain = true;
             updateMainPhoto.IsMain = false;
             _unitOfWork.PhotoRepository.Update(updatePhoto);
