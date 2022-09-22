@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using OnlineShop.BLL.DTOs.ProductDTOs;
 using OnlineShop.BLL.Services.Abstractions;
-using OnlineShop.Core.Enums;
 using OnlineShop.Web.Admin.ViewModels.ProductViewModels;
 
 namespace OnlineShop.Web.Admin.Controllers
@@ -31,49 +30,51 @@ namespace OnlineShop.Web.Admin.Controllers
         public async Task<IActionResult> GetProducts()
         {
             var products = _mapper.Map<List<GetProductViewModel>>(await _productService.GetAll());
+            ProductViewModel productList = new ProductViewModel() { ProductList = products };
+            ViewBag.Categories = new SelectList(await _categoryService.GetAll(), "Id", "CategoryName");
 
-            return View(products);
+            //return View(new ProductViewModel() { ProductList = new List<GetProductViewModel>(), ProductFilter = new ProductFilterViewModel()});
+            return View(productList);
         }
 
         [HttpGet]
-        public IActionResult AddProduct()
+        public async Task<IActionResult> AddProduct()
         {
-            ViewBag.Categories = new SelectList(_categoryService.GetAll(), "Id", "CategoryName");
+            ViewBag.Categories = new SelectList(await _categoryService.GetAll(), "Id", "CategoryName");
 
-            return PartialView();
+            return PartialView("_AddProduct");
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult AddProduct(AddProductViewModel addProduct)
+        public async Task<IActionResult> AddProduct(AddProductViewModel addProduct)
         {
             if (ModelState.IsValid)
             {
                 if (addProduct.PhotoFiles == null)
                     addProduct.PhotoFiles = new List<IFormFile>();
+
                 addProduct.PhotoFiles.Add(addProduct.MainPhoto);
                 var newProduct = _mapper.Map<AddProductDTO>(addProduct);
 
-                _productService.Add(newProduct);
+               await _productService.Add(newProduct);
 
-                TempData["message"] = $"{addProduct.ProductName} has been saved";
-                return RedirectToAction("GetProducts");
+                //return RedirectToAction("GetProducts");
             }
 
-            return View(addProduct);
+            return PartialView("_AddProduct", addProduct);
         }
 
         [HttpGet]
-        public IActionResult UpdateProduct(int productId)
+        public async Task<IActionResult> UpdateProduct(int productId)
         {
-            var updateProduct = _mapper.Map<UpdateProductViewModel>(_productService.FindById(productId));
-            updateProduct.Categories = new SelectList(_categoryService.GetAll(), "Id", "CategoryName", selectedValue: new { Id = updateProduct.CategoryId });
+            var updateProduct = _mapper.Map<UpdateProductViewModel>(await _productService.FindById(productId));
+            updateProduct.Categories = new SelectList(await _categoryService.GetAll(), "Id", "CategoryName", selectedValue: new { Id = updateProduct.CategoryId });
 
             return View(updateProduct);
         }
 
         [HttpPost]
-        public IActionResult UpdateProduct(UpdateProductViewModel updateProduct)
+        public async Task<IActionResult> UpdateProduct(UpdateProductViewModel updateProduct)
         {
             if (ModelState.IsValid)
             {
@@ -81,7 +82,7 @@ namespace OnlineShop.Web.Admin.Controllers
 
                 if (updateProduct.Files != null)
                 {
-                    var newPhotos = _photoService.AddFiles(updateProduct.Files, updateProduct.Id);
+                    var newPhotos = await _photoService.AddFiles(updateProduct.Files, updateProduct.Id);
 
                     //foreach (var photo in newPhotos)
                     //{
@@ -89,33 +90,36 @@ namespace OnlineShop.Web.Admin.Controllers
                     //}
                 }
 
-                _productService.Update(product);
+                await _productService.Update(product);
 
                 return RedirectToAction("GetProducts");
             }
 
-            return UpdateProduct(updateProduct.Id);
+            return await UpdateProduct(updateProduct.Id);
         }
 
         [HttpGet]
-        public IActionResult DeleteProduct()
+        public async Task<IActionResult> DeleteProduct()
         {
             return PartialView();
         }
 
         [HttpPost]
-        public IActionResult DeleteProduct(DeleteProductViewModel deleteProductViewModel)
+        public async Task<IActionResult> DeleteProduct(DeleteProductViewModel deleteProductViewModel)
         {
-            var removeProduct = _productService.FindById(deleteProductViewModel.Id);
+            var removeProduct = await _productService.FindById(deleteProductViewModel.Id);
 
+
+            //TODO Move to PhotoService
             foreach (var photo in removeProduct.Photos)
             {
-                var photoPath = Path.Combine(_hostEnvironment.WebRootPath, "img", photo.PhotoURL);
-                if (System.IO.File.Exists(photoPath))
-                    System.IO.File.Delete(photoPath);
+                await _photoService.Delete(photo.ProductId);
+                //var photoPath = Path.Combine(_hostEnvironment.WebRootPath, "img", photo.PhotoURL);
+                //if (System.IO.File.Exists(photoPath))
+                //    System.IO.File.Delete(photoPath);
             }
 
-            _productService.Delete(deleteProductViewModel.Id);
+            await _productService.Delete(deleteProductViewModel.Id);
 
             return RedirectToAction("GetProducts");
         }
@@ -126,6 +130,18 @@ namespace OnlineShop.Web.Admin.Controllers
             var products = _mapper.Map<List<GetProductViewModel>>(await _productService.ProductSorting(sortingBy));
 
             return ViewComponent("ProductList", products);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ProductFilter([FromBody]ProductFilterViewModel productFilters)
+        {
+            var filters = _mapper.Map<ProductFilterDTO>(productFilters);
+            //var products = _mapper.Map<List<GetProductViewModel>>(await _productService.ProductFilter(filters));
+
+            var products = await _productService.GetProductsByFilter(filters);
+            var pro = _mapper.Map<List<GetProductViewModel>>(products);
+
+            return ViewComponent("ProductList", pro);
         }
     }
 }

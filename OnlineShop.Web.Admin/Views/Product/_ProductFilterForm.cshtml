@@ -1,0 +1,37 @@
+﻿ @model ProductViewModel
+
+<form class="row gx-3 gy-2 align-items-center float-start pb-3" id="FilterForm">
+    @*<div class="row gx-3 gy-2 align-items-center float-start pb-3" id="FilterForm">*@
+    <div class="col-auto">
+        <label class="form-label filter-label">Price range</label>
+        <select class="form-select" id="PriceRange" asp-for="ProductFilter.PriceRange" name="PriceRange">
+            <option selected>Choose price range</option>
+            <option value="1">$0 - $50</option>
+            <option value="2">$51 - $100</option>
+            <option value="3">$101 - $150</option>
+            <option value="4">> $151</option>
+        </select>
+    </div>
+    <div class="col-auto">
+        <label class="form-label filter-label">Category</label>
+        <select class="form-select" id="CategoryId" asp-items="ViewBag.Categories" asp-for="ProductFilter.CategoryId" name="CategoryId">
+            <option selected>Choose Category</option>
+        </select>
+    </div>
+    <div class="col-auto">
+        <label class="form-label filter-label">Date from</label>
+        <div class="input-group">
+            <input type="date" class="form-control" id="DateTimeFrom" asp-for="ProductFilter.DateTimeFrom" name="DateTimeFrom">
+        </div>
+    </div>
+    <div class="col-auto">
+        <label class="form-label filter-label">Date to</label>
+        <div class="input-group">
+            <input type="date" class="form-control" id="DateTimeTo" asp-for="ProductFilter.DateTimeTo" name="DateTimeTo">
+        </div>
+    </div>
+    <div class="col-auto" style="padding-top:4%;">
+        <button type="button" class="btn btn-outline-primary" id="FilterBTN">Filter</button>
+    </div>
+    @*</div>*@
+</form>

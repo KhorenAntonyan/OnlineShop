@@ -10,10 +10,10 @@ namespace OnlineShop.BLL.Mapping
     {
         public BLLMappingProfile()
         {
-            CreateMap<Product, GetProductDTO>()
-                .ForMember(dest => dest.Photos, opt => opt.MapFrom(src => GetPhotoList(src.Photos)))
-                .ForMember(dest => dest.CategoryName, opt => opt.MapFrom(src => src.Category.CategoryName))
-                .ForMember(dest => dest.CategoryId, opt => opt.MapFrom(src => src.Category.Id));
+            CreateMap<Product, GetProductDTO>();
+                //.ForMember(dest => dest.Photos, opt => opt.MapFrom(src => GetPhotoList(src.Photos)))
+                //.ForMember(dest => dest.CategoryName, opt => opt.MapFrom(src => src.Category.CategoryName))
+                //.ForMember(dest => dest.CategoryId, opt => opt.MapFrom(src => src.Category.Id));
             CreateMap<AddProductDTO, Product>();
             CreateMap<UpdateProductDTO, Product>().ForMember(dest => dest.Photos, opt => opt.MapFrom(src => GetPhotoList(src.Photos)));
             

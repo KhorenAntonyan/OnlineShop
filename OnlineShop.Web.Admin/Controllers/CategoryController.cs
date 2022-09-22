@@ -20,65 +20,65 @@ namespace OnlineShop.Web.Admin.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetCategories()
+        public async Task<IActionResult> GetCategories()
         {
-            var categories = _mapper.Map<List<GetCategoryViewModel>>(_categoryService.GetAll());
+            var categories = _mapper.Map<List<GetCategoryViewModel>>(await _categoryService.GetAll());
 
             return View(categories);
         }
 
         [HttpGet]
-        public IActionResult AddCategory()
+        public async Task<IActionResult> AddCategory()
         {
-            return PartialView();
+            return PartialView("_AddCategory");
         }
 
         [HttpPost]
-        public IActionResult AddCategory(AddCategoryViewModel addCategory)
+        public async Task<IActionResult> AddCategory(AddCategoryViewModel addCategory)
         {
             if (ModelState.IsValid)
             {
                 var newCategory = _mapper.Map<AddCategoryDTO>(addCategory);
-                _categoryService.Add(newCategory);
+                await _categoryService.Add(newCategory);
 
                 return RedirectToAction("GetCategories");
             }
 
-            return View(addCategory);
+            return PartialView("_AddCategory", addCategory);
         }
 
         [HttpGet]
-        public IActionResult UpdateCategory(int categoryId)
+        public async Task<IActionResult> UpdateCategory(int categoryId)
         {
-            var updateCategory = _mapper.Map<UpdateCategoryViewModel>(_categoryService.FindById(categoryId));
+            var updateCategory = _mapper.Map<UpdateCategoryViewModel>(await _categoryService.FindById(categoryId));
 
             return View(updateCategory);
         }
 
         [HttpPost]
-        public IActionResult UpdateCategory(UpdateCategoryViewModel updateCategory)
+        public async Task<IActionResult> UpdateCategory(UpdateCategoryViewModel updateCategory)
         {
             if (ModelState.IsValid)
             {
                 var updateCategoryDTO = _mapper.Map<UpdateCategoryDTO>(updateCategory);
-                _categoryService.Update(updateCategoryDTO);
+                await _categoryService.Update(updateCategoryDTO);
 
                 return RedirectToAction("GetCategories");
             }
 
-            return UpdateCategory(updateCategory.Id);
+            return await UpdateCategory(updateCategory.Id);
         }
 
         [HttpGet]
-        public IActionResult DeleteCategory()
+        public async Task<IActionResult> DeleteCategory()
         {
             return PartialView();
         }
 
         [HttpPost]
-        public IActionResult DeleteCategory(DeleteCategoryViewModel deleteCategoryViewModel)
+        public async Task<IActionResult> DeleteCategory(DeleteCategoryViewModel deleteCategoryViewModel)
         {
-            _categoryService.Delete(deleteCategoryViewModel.Id);
+            await _categoryService.Delete(deleteCategoryViewModel.Id);
 
             return RedirectToAction("GetCategories");
         }

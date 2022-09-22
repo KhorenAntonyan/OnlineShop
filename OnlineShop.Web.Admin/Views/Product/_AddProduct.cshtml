@@ -1,0 +1,57 @@
+﻿@model AddProductViewModel
+
+<div class="modal fade" id="addProduct">
+    <div class="modal-dialog">
+        <div class="modal-content p-2">
+            <div class="modl-header d-flex justify-content-between">
+                <h5 class="modal-title m-auto">Add Product</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="ModalBody">
+                <form method="post" enctype="multipart/form-data" asp-controller="Product" asp-action="AddProduct">
+                    <input name="IsValid" type="hidden" value="@ViewData.ModelState.IsValid.ToString()" />
+                    <div class="col-12">
+                        <label for="inputProductname" class="form-label">ProductName</label>
+                        <input type="text" class="form-control" id="ProductName" asp-for="ProductName">
+                        <span asp-validation-for="ProductName"></span>
+                    </div>
+                    <div class="col-md-12">
+                        <label for="inputCategory" class="form-label">Category</label>
+                        <select class="form-select" id="CategoryId" asp-for="CategoryId" asp-items="ViewBag.Categories">
+                            <option value="@null" selected>Choose...</option>
+                        </select>
+                        <span asp-validation-for="CategoryId"></span>
+                    </div>
+                    <div class="col-md-12">
+                        <label for="inputPrice" class="form-label">Price</label>
+                        <input type="number" min="0.00" max="1000000.00" step="0.01" class="form-control" id="Price" asp-for="Price">
+                        <span asp-validation-for="Price"></span>
+                    </div>
+                    <div class="col-md-12">
+                        <label for="inputQuantity" class="form-label">Quantity</label>
+                        <input type="number" class="form-control" id="Quantity" asp-for="Quantity">
+                        <span asp-validation-for="Quantity"></span>
+                    </div>
+                    <div class="col-12">
+                        <label for="inputDescription" class="form-label">Description</label>
+                        <textarea class="form-control" id="Description" asp-for="Description"></textarea>
+                        <span asp-validation-for="Description"></span>
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label">Add Main Product Photo</label>
+                        <input class="form-control" id="MainPhoto" type="file" accept="image/*" asp-for="MainPhoto">
+                        <span asp-validation-for="MainPhoto"></span>
+                    </div>
+                    <div class="col-12 mb-2">
+                        <label class="form-label">Add Product Photo</label>
+                        <input class="form-control" id="PhotoFiles" type="file" multiple="multiple" accept="image/*" asp-for="PhotoFiles">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer m-auto">
+                <button type="submit" class="btn btn-primary" data-save="modal">Add</button>
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cansel</button>
+            </div>
+        </div>
+    </div>
+</div>

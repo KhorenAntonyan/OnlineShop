@@ -5,9 +5,9 @@ namespace OnlineShop.BLL.Services.Abstractions
 {
     public interface IFilterService
     {
-        ProductFilterDTO Price { get; set; }
-        ProductFilterDTO Quantity { get; set; }
-        ProductFilterDTO CreatedDate { get; set; }
+        ProductSortingDTO Price { get; set; }
+        ProductSortingDTO Quantity { get; set; }
+        ProductSortingDTO CreatedDate { get; set; }
         CategoryFilterDTO Id { get; set; }
         CategoryFilterDTO CategoryCreatedDate { get; set; }
     }
