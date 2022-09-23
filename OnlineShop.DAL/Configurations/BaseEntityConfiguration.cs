@@ -4,10 +4,16 @@ using OnlineShop.DAL.Entities;
 
 namespace OnlineShop.DAL.Configurations
 {
-    public class BaseEntityConfiguration : IEntityTypeConfiguration<BaseEntity>
+    public class BaseEntityConfiguration<TEntity> : IEntityTypeConfiguration<TEntity> where TEntity : BaseEntity
     {
-        public void Configure(EntityTypeBuilder<BaseEntity> builder)
+        public virtual void Configure(EntityTypeBuilder<TEntity> builder)
         {
+            builder.HasQueryFilter(f => EF.Property<DateTime?>(f, "IsDeleted") == null);
+
+            builder.HasKey(p => p.Id);
+
+            builder.Property(p => p.Id);
+
             builder.Property(p => p.CreatedDate)
                 .IsRequired();
 

@@ -1,30 +1,22 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
+﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using OnlineShop.DAL.Entities;
-
 
 namespace OnlineShop.DAL.Configurations
 {
-    public class PhotoConfiguration : IEntityTypeConfiguration<Photo>
+    public class PhotoConfiguration : BaseEntityConfiguration<Photo>
     {
-        public void Configure(EntityTypeBuilder<Photo> builder)
+        public override void Configure(EntityTypeBuilder<Photo> builder)
         {
-            builder.HasKey(p => p.Id);
-
-            builder.Property(p => p.Id)
-                .HasColumnName("PhotoId");
-
             builder.Property(p => p.PhotoURL)
-                .HasColumnType("nvarchar(100)");
+                .IsRequired(false);
+
+            builder.Property(p => p.IsMain)
+                .IsRequired(true);
 
             builder
                 .HasOne(p => p.Product)
                 .WithMany(p => p.Photos)
-                .HasForeignKey("ProductId");
-
-            builder.Property(p => p.IsMain)
-                .IsRequired(true)
-                .HasDefaultValue(false);
+                .HasForeignKey(p => p.ProductId);
         }
     }
 }
