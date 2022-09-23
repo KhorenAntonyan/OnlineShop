@@ -52,7 +52,7 @@ namespace OnlineShop.DAL.Repositories.Implementations
         }
         public void Save()
         {
-            context.SaveChanges();
+            context.SaveChangesAsync();
         }
 
         private bool disposed = false;

@@ -4,25 +4,18 @@ using OnlineShop.DAL.Entities;
 
 namespace OnlineShop.DAL.Configurations
 {
-    public class ProductConfiguration : IEntityTypeConfiguration<Product>
+    public class ProductConfiguration : BaseEntityConfiguration<Product>
     {
-        public void Configure(EntityTypeBuilder<Product> builder)
+        public override void Configure(EntityTypeBuilder<Product> builder)
         {
-            builder.HasKey(p => p.Id);
-
-            builder.Property(p => p.Id)
-                .HasColumnName("ProductId");
 
             builder.Property(p => p.ProductName)
-                .HasMaxLength(512)
                 .IsRequired();
 
             builder.Property(p => p.Description)
-                .HasMaxLength(2048)
                 .IsRequired();
 
             builder.Property(p => p.Price)
-                .HasPrecision(38, 18)
                 .IsRequired();
 
             builder.Property(p => p.CategoryId)
@@ -31,7 +24,7 @@ namespace OnlineShop.DAL.Configurations
             builder
                 .HasOne(p => p.Category)
                 .WithMany(p => p.Products)
-                .HasForeignKey("CategoryId")
+                .HasForeignKey(p => p.CategoryId)
                 .OnDelete(DeleteBehavior.SetNull);
 
         }
