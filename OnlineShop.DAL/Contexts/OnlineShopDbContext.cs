@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using OnlineShop.DAL.Configurations;
 using OnlineShop.DAL.Entities;
+using OnlineShop.DAL.Extensions;
 
 namespace OnlineShop.DAL.Contexts
 {
@@ -23,6 +24,13 @@ namespace OnlineShop.DAL.Contexts
             modelBuilder.ApplyConfiguration(new PhotoConfiguration());
 
             base.OnModelCreating(modelBuilder);
+        }
+
+        public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+        {
+            ChangeTracker.SetAuditProperties();
+
+            return base.SaveChangesAsync(cancellationToken);
         }
     }
 }

@@ -16,14 +16,15 @@ namespace OnlineShop.Web.Admin.Mapping
             CreateMap<GetProductDTO, GetProductViewModel>().ForMember(dest => dest.Photos, opt => opt.MapFrom(src => GetPhotoViewModelList(src.Photos)));
             CreateMap<UpdateProductViewModel, UpdateProductDTO>().ReverseMap();
             CreateMap<GetProductDTO, UpdateProductViewModel>().ForMember(dest => dest.Photos, opt => opt.MapFrom(src => GetPhotoViewModelList(src.Photos)));
+            CreateMap<ProductFilterViewModel, ProductFilterDTO>().ReverseMap();
 
             CreateMap<GetCategoryViewModel, GetCategoryDTO>().ReverseMap();
             CreateMap<AddCategoryViewModel, AddCategoryDTO>().ReverseMap();
             CreateMap<UpdateCategoryViewModel, UpdateCategoryDTO>().ReverseMap();
-            CreateMap<UpdateCategoryViewModel, UpdateCategoryDTO>().ReverseMap();
             CreateMap<GetCategoryDTO, UpdateCategoryViewModel>();
 
             CreateMap<GetPhotoViewModel, UpdatePhotoDTO>().ReverseMap();
+            CreateMap<UpdateMainPhotoViewModel, UpdateMainPhotoDTO>().ReverseMap();
 
         }
 

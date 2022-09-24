@@ -1,13 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using System.ComponentModel.DataAnnotations;
 
 namespace OnlineShop.Web.Admin.ViewModels.ProductViewModels
 {
     public class AddProductViewModel
     {
-        public int Id { get; set; }
-
         [Required(ErrorMessage = "Please choose product category")]
-        public int CategoryId { get; set; }
+        public int? CategoryId { get; set; }
 
         [Required(ErrorMessage = "Please enter product name")]
         public string ProductName { get; set; }
@@ -16,11 +15,13 @@ namespace OnlineShop.Web.Admin.ViewModels.ProductViewModels
         public string Description { get; set; }
 
         [Required(ErrorMessage = "Please enter product price")]
-        public decimal Price { get; set; }
+        public decimal? Price { get; set; }
 
         [Required(ErrorMessage = "Please enter product quantity")]
-        public int Quantity { get; set; }
+        public int? Quantity { get; set; }
         public List<IFormFile>? PhotoFiles { get; set; }
+
+        [Required(ErrorMessage = "Please enter product main photo")]
         public IFormFile? MainPhoto { get; set; }
     }
 }

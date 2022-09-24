@@ -2,6 +2,7 @@
 using OnlineShop.DAL.Contexts;
 using OnlineShop.DAL.Entities;
 using OnlineShop.DAL.Repositories.Abstractions;
+using System.Linq.Expressions;
 
 namespace OnlineShop.DAL.Repositories.Implementations
 {

@@ -32,7 +32,7 @@
             {
                 <form method="post" asp-controller="Account" asp-action="Logout">
                     <input type="submit" value="Logout" />
-                </form> 
+                </form>
             }
             else
             {
@@ -46,6 +46,7 @@
         {
             <div class="alert alert-success">@TempData["message"]</div>
         }
+        <div id="loading" class="loading" style="display:none"></div>
         @RenderBody()
     </div>
 

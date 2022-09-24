@@ -32,8 +32,8 @@
                     <button type="submit" class="btn btn-outline-danger" style="float:right;" onclick="location.href='@Url.Action("DeletePhoto", "Photo", new { photoName = photo.PhotoURL })'">Remove</button>
                     @if (!photo.IsMain)
                     {
-                        <button type="submit" class="btn btn-outline-primary" style="float:right; margin-right:5px;" onclick="window.location='@Url.Action("UpdateMainPhoto", "Photo", new { photoId = photo.Id, mainPhotoId = mainPhotoId })'">Make the main</button>
-                    }
+                        <button type="submit" class="btn btn-outline-primary" style="float:right; margin-right:5px;" onclick="location.href='@Url.Action("UpdateMainPhoto", "Photo", new { PhotoId = photo.Id, MainPhotoId = mainPhotoId })'">Make the main</button>
+                }
                 </div>
             </div>
         }

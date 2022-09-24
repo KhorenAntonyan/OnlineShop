@@ -2,8 +2,10 @@
 using OnlineShop.BLL.DTOs.ProductDTOs;
 using OnlineShop.BLL.Services.Abstractions;
 using OnlineShop.Core.Enums;
+using OnlineShop.Core.Extensions;
 using OnlineShop.DAL.Entities;
 using OnlineShop.DAL.Repositories.Abstractions;
+using System.Linq.Expressions;
 
 namespace OnlineShop.BLL.Services.Implementations
 {
@@ -107,6 +109,50 @@ namespace OnlineShop.BLL.Services.Implementations
             }
 
             return products;
+        }
+
+        public async Task<List<GetProductDTO>> GetProductsByFilter(ProductFilterDTO productFilters)
+        {
+            Func<Product, bool> findFunction = (p) => p != null;
+
+            if (productFilters.PriceRange != null)
+            {
+                switch (productFilters.PriceRange)
+                {
+                    case 1:
+                        findFunction = findFunction.And(p => p.Price <= 50);
+                        break;
+                    case 2:
+                        findFunction = findFunction.And(p => p.Price >= 51 && p.Price <= 100);
+                        break;
+                    case 3:
+                        findFunction = findFunction.And(p => p.Price >= 101 && p.Price <= 150);
+                        break;
+                    case 4:
+                        findFunction = findFunction.And(p => p.Price >= 151);
+                        break;
+                }
+            }
+
+            if(productFilters.CategoryId != null)
+            {
+                findFunction = findFunction.And(p => p.CategoryId == productFilters.CategoryId);
+            }
+
+            if (productFilters.DateTimeFrom != null)
+            {
+                findFunction = findFunction.And(p => p.CreatedDate >= productFilters.DateTimeFrom);
+            }
+
+            if (productFilters.DateTimeTo != null)
+            {
+                findFunction = findFunction.And(p => p.CreatedDate <= productFilters.DateTimeTo);
+            }
+
+            var products = _unitOfWork.ProductRepository.GetByFilter(findFunction);
+            var p = _mapper.Map<IEnumerable<GetProductDTO>>(products);
+
+            return p.ToList();
         }
     }
 }
