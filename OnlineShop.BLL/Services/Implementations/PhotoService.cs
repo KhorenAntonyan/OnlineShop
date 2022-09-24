@@ -24,8 +24,8 @@ namespace OnlineShop.BLL.Services.Implementations
         public async Task Add(AddPhotoDTO addPhotoDTO)
         {
             var photo = _mapper.Map<Photo>(addPhotoDTO);
-            _unitOfWork.PhotoRepository.Add(photo);
-            _unitOfWork.Save();
+            await _unitOfWork.PhotoRepository.Add(photo);
+            await _unitOfWork.SaveChangesAsync();
         }
 
         public async Task<List<Photo>> AddFiles(List<IFormFile> photos, int productId)
@@ -71,31 +71,26 @@ namespace OnlineShop.BLL.Services.Implementations
 
         public async Task<GetPhotoDTO> Find(string photoName)
         {
-            var photo = _mapper.Map<GetPhotoDTO>(_unitOfWork.PhotoRepository.Find(photoName));
+            var photo = _mapper.Map<GetPhotoDTO>(await _unitOfWork.PhotoRepository.Find(photoName));
             return photo;
         }
 
         public async Task Delete(int photoId)
         {
-            Photo photo = _unitOfWork.PhotoRepository.FindById(photoId);
-
-            var photoPath = Path.Combine(_hostEnvironment.WebRootPath, "img", photo.PhotoURL);
-            if (File.Exists(photoPath))
-                File.Delete(photoPath);
-
-            _unitOfWork.PhotoRepository.Delete(photo);
-            _unitOfWork.Save();
+            Photo photo = await _unitOfWork.PhotoRepository.FindById(photoId);
+            await _unitOfWork.PhotoRepository.Delete(photo);
+            await _unitOfWork.SaveChangesAsync();
         }
 
-        public async Task<int> UpdateMainPhoto(UpdateMainPhotoDTO updateMainPhotoDTO)
+        public async Task<int> UpdateMainPhoto(int photoId, int mainPhotoId)
         {
-            Photo updatePhoto = _unitOfWork.PhotoRepository.FindById(updateMainPhotoDTO.PhotoId);
-            Photo updateMainPhoto = _unitOfWork.PhotoRepository.FindById(updateMainPhotoDTO.MainPhotoId);
+            Photo updatePhoto = await _unitOfWork.PhotoRepository.FindById(photoId);
+            Photo updateMainPhoto = await _unitOfWork.PhotoRepository.FindById(mainPhotoId);
             updatePhoto.IsMain = true;
             updateMainPhoto.IsMain = false;
-            _unitOfWork.PhotoRepository.Update(updatePhoto);
-            _unitOfWork.PhotoRepository.Update(updateMainPhoto);
-            _unitOfWork.Save();
+            await _unitOfWork.PhotoRepository.Update(updatePhoto);
+            await _unitOfWork.PhotoRepository.Update(updateMainPhoto);
+            await _unitOfWork.SaveChangesAsync();
             
             return updatePhoto.ProductId;
         }

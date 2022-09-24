@@ -5,55 +5,24 @@ namespace OnlineShop.DAL.Repositories.Implementations
 {
     public class UnitOfWork : IUnitOfWork
     {
-        private readonly OnlineShopDbContext context;
+        private readonly OnlineShopDbContext _context;
 
         public UnitOfWork(OnlineShopDbContext context)
         {
-            this.context = context;
-        }
-        private CategoryRepository categoryRepository;
-        private ProductRepository productRepository;
-        private PhotoRepository photoRepository;
-
-        public ProductRepository ProductRepository
-        {
-            get
-            {
-                if (this.productRepository == null)
-                {
-                    this.productRepository = new ProductRepository(context);
-                }
-                return productRepository;
-            }
+            _context = context;
         }
 
-        public CategoryRepository CategoryRepository
-        {
-            get
-            {
-                if (this.categoryRepository == null)
-                {
-                    this.categoryRepository = new CategoryRepository(context);
-                }
-                return categoryRepository;
-            }
-        }
+        private IProductRepository _productRepository;
+        private ICategoryRepository _categoryRepository;
+        private IPhotoRepository _photoRepository;
 
-        public PhotoRepository PhotoRepository
-        {
-            get
-            {
-                if (this.photoRepository == null)
-                {
-                    this.photoRepository = new PhotoRepository(context);
-                }
-                return photoRepository;
-            }
-        }
-        public void Save()
-        {
-            context.SaveChangesAsync();
-        }
+        public IProductRepository ProductRepository => _productRepository ?? new ProductRepository(_context);
+
+        public ICategoryRepository CategoryRepository => _categoryRepository ?? new CategoryRepository(_context);
+
+        public IPhotoRepository PhotoRepository => _photoRepository ?? new PhotoRepository(_context);
+
+        public async Task SaveChangesAsync() => await _context.SaveChangesAsync();
 
         private bool disposed = false;
 
@@ -63,7 +32,7 @@ namespace OnlineShop.DAL.Repositories.Implementations
             {
                 if (disposing)
                 {
-                    context.Dispose();
+                    _context.Dispose();
                 }
             }
             this.disposed = true;

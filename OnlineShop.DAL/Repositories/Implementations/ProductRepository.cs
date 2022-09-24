@@ -14,33 +14,20 @@ namespace OnlineShop.DAL.Repositories.Implementations
             _dbSet = context.Set<Product>();
         }
 
-        public override IQueryable<Product> GetAll()
+        public override async Task<IEnumerable<Product>> GetAllAsync()
         {
             return _dbSet
                 .Include(p => p.Photos)
                 .Include(c => c.Category)
-                .Where(p => p.IsDeleted == null)
-                .AsQueryable();
+                .ToList();
         }
 
-        public IEnumerable<Product> GetByFilter(Func<Product, bool> filterQuery)
+        public override async Task<Product> FindByIdAsync(int id)
         {
-            var query = _dbSet
+            return await _dbSet
                 .Include(p => p.Photos)
                 .Include(c => c.Category)
-                .Where(filterQuery);
-
-            var list = query.ToList();
-
-            return list;
-        }
-
-        public override Product FindById(int id)
-        {
-            return _dbSet
-                .Include(p => p.Photos)
-                .Include(c => c.Category)
-                .FirstOrDefault(p => p.Id == id && p.IsDeleted == null);
+                .FirstOrDefaultAsync(p => p.Id == id);
         }
     }
 }

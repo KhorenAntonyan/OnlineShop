@@ -13,10 +13,6 @@ namespace OnlineShop.DAL.Repositories.Implementations
             _dbSet = context.Set<Photo>();
         }
 
-        public Photo Find(string photoName)
-        {
-            return _dbSet.FirstOrDefault(p => p.PhotoURL == photoName && p.IsDeleted == null);
-        }
-
+        public async Task<Photo> FindAsync(string photoName) => await _dbSet.FirstOrDefaultAsync(p => p.PhotoURL == photoName);
     }
 }

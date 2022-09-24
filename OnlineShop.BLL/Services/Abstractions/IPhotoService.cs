@@ -10,6 +10,6 @@ namespace OnlineShop.BLL.Services.Abstractions
         Task<List<Photo>> AddFiles(List<IFormFile> photos, int productId);
         Task<GetPhotoDTO> Find(string photoName);
         Task Delete(int photoId);
-        Task<int> UpdateMainPhoto(UpdateMainPhotoDTO updateMainPhotoDTO);
+        Task<int> UpdateMainPhoto(int photoId, int mainPhotoId);
     }
 }

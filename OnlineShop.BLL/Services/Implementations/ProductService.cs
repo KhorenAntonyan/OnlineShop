@@ -29,40 +29,39 @@ namespace OnlineShop.BLL.Services.Implementations
             var photos = await _photoService.AddFiles(addProductDTO.PhotoFiles, addProductDTO.Id);
             var product = _mapper.Map<Product>(addProductDTO);
             product.Photos = photos;
-            _unitOfWork.ProductRepository.Add(product);
-            _unitOfWork.Save();
+            await _unitOfWork.ProductRepository.Add(product);
+            await _unitOfWork.SaveChangesAsync();
         }
 
         public async Task<GetProductDTO> FindById(int productId)
         {
-            var product = _mapper.Map<GetProductDTO>(_unitOfWork.ProductRepository.FindById(productId));
+            var product = _mapper.Map<GetProductDTO>(await _unitOfWork.ProductRepository.FindById(productId));
             return product;
         }
 
         public async Task<IEnumerable<GetProductDTO>> GetAll()
         {
-            var products = _mapper.Map<List<GetProductDTO>>(_unitOfWork.ProductRepository.GetAll());
-
+            var products = _mapper.Map<List<GetProductDTO>>(await _unitOfWork.ProductRepository.GetAll());
             return products;
         }
 
         public async Task Delete(int productId)
         {
-            Product product = _unitOfWork.ProductRepository.FindById(productId);
-            _unitOfWork.ProductRepository.Delete(product);
-            _unitOfWork.Save();
+            Product product = await _unitOfWork.ProductRepository.FindById(productId);
+            await _unitOfWork.ProductRepository.Delete(product);
+            await _unitOfWork.SaveChangesAsync();
         }
 
         public async Task Update(UpdateProductDTO updateProductDTO)
         {
             var updateProduct = _mapper.Map<Product>(updateProductDTO);
-            _unitOfWork.ProductRepository.Update(updateProduct);
-            _unitOfWork.Save();
+            await _unitOfWork.ProductRepository.Update(updateProduct);
+            await _unitOfWork.SaveChangesAsync();
         }
 
-        public async Task<List<GetProductDTO>> ProductSorting(string sortingBy)
+        public async Task<IEnumerable<GetProductDTO>> ProductSorting(string sortingBy)
         {
-            var products = _mapper.Map<List<GetProductDTO>>(_unitOfWork.ProductRepository.GetAll());
+            var products = _mapper.Map<List<GetProductDTO>>(await _unitOfWork.ProductRepository.GetAll());
 
             switch (sortingBy)
             {
