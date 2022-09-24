@@ -20,37 +20,37 @@ namespace OnlineShop.BLL.Services.Implementations
             _filterService = filterService;
         }
 
-        public void Add(AddCategoryDTO addCategoryDTO)
+        public async Task Add(AddCategoryDTO addCategoryDTO)
         {
             var category = _mapper.Map<Category>(addCategoryDTO);
-            _unitOfWork.CategoryRepository.Add(category);
-            _unitOfWork.Save();
+            await _unitOfWork.CategoryRepository.Add(category);
+            await _unitOfWork.SaveChangesAsync();
         }
 
-        public IEnumerable<GetCategoryDTO> GetAll()
+        public async Task<IEnumerable<GetCategoryDTO>> GetAll()
         {
-            var categories = _mapper.Map<List<GetCategoryDTO>>(_unitOfWork.CategoryRepository.GetAll());
+            var categories = _mapper.Map<List<GetCategoryDTO>>(await _unitOfWork.CategoryRepository.GetAll());
             return categories;
         }
 
-        public GetCategoryDTO FindById(int categoryId)
+        public async Task<GetCategoryDTO> FindById(int categoryId)
         {
-            var category = _mapper.Map<GetCategoryDTO>(_unitOfWork.CategoryRepository.FindById(categoryId));
+            var category = _mapper.Map<GetCategoryDTO>(await _unitOfWork.CategoryRepository.FindById(categoryId));
             return category;
         }
 
-        public void Delete(int categoryId)
+        public async Task Delete(int categoryId)
         {
-            Category category = _unitOfWork.CategoryRepository.FindById(categoryId);
-            _unitOfWork.CategoryRepository.Delete(category);
-            _unitOfWork.Save();
+            Category category = await _unitOfWork.CategoryRepository.FindById(categoryId);
+            await _unitOfWork.CategoryRepository.Delete(category);
+            await _unitOfWork.SaveChangesAsync();
         }
 
-        public void Update(UpdateCategoryDTO updateCategoryDTO)
+        public async Task Update(UpdateCategoryDTO updateCategoryDTO)
         {
             var updateCategory = _mapper.Map<Category>(updateCategoryDTO);
-            _unitOfWork.CategoryRepository.Update(updateCategory);
-            _unitOfWork.Save();
+            await _unitOfWork.CategoryRepository.Update(updateCategory);
+            await _unitOfWork.SaveChangesAsync();
         }
 
         public async Task<List<GetCategoryDTO>> CategorySorting(string sortingBy)

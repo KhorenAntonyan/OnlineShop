@@ -6,10 +6,10 @@ namespace OnlineShop.BLL.Services.Abstractions
 {
     public interface IPhotoService : IBaseService<Photo>
     {
-        void Add(AddPhotoDTO addPhotoDTO);
-        List<Photo> AddFiles(List<IFormFile> photos, int productId);
-        GetPhotoDTO Find(string photoName);
-        void Delete(int photoId);
-        int UpdateMainPhoto(int photoId, int mainPhotoId);
+        Task Add(AddPhotoDTO addPhotoDTO);
+        Task<List<Photo>> AddFiles(List<IFormFile> photos, int productId);
+        Task<GetPhotoDTO> Find(string photoName);
+        Task Delete(int photoId);
+        Task<int> UpdateMainPhoto(int photoId, int mainPhotoId);
     }
 }

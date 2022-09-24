@@ -7,42 +7,21 @@ namespace OnlineShop.DAL.Repositories.Implementations
 {
     public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : BaseEntity
     {
-        private readonly OnlineShopDbContext _context;
         private readonly DbSet<TEntity> _dbSet;
 
         public BaseRepository(OnlineShopDbContext context)
         {
-            _context = context;
             _dbSet = context.Set<TEntity>();
         }
 
-        public TEntity Add(TEntity entity)
-        {
-            _dbSet.Add(entity);
-            return entity;
-        }
+        public async Task AddAsync(TEntity entity) => await _dbSet.AddAsync(entity);
 
-        public virtual TEntity FindById(int id)
-        {
-            return _dbSet.FirstOrDefault(e => e.Id == id && e.IsDeleted == null);
-        }
+        public virtual async Task<TEntity> FindByIdAsync(int id) => await _dbSet.FirstOrDefaultAsync(e => e.Id == id);
 
-        public virtual IQueryable<TEntity> GetAll()
-        {
-            return _dbSet.Where(b => b.IsDeleted == null).ToList().AsQueryable();
-        }
+        public virtual async Task<IEnumerable<TEntity>> GetAllAsync() => await _dbSet.ToListAsync();
 
-        public virtual void Delete(TEntity entity)
-        {
-            BaseEntity baseEntity = (BaseEntity)entity;
-            baseEntity.IsDeleted = DateTime.UtcNow;
-        }
+        public async Task DeleteAsync(TEntity entity) => _dbSet.Remove(entity);
 
-        public TEntity Update(TEntity entity)
-        {
-            _context.Entry(entity).State = EntityState.Modified;
-            
-            return entity;
-        }
+        public async Task UpdateAsync(TEntity entity) => _dbSet.Update(entity);
     }
 }

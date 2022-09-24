@@ -5,11 +5,11 @@ namespace OnlineShop.BLL.Services.Abstractions
 {
     public interface IProductService : IBaseService<Product>
     {
-        void Add(AddProductDTO addProductDTO);
+        Task Add(AddProductDTO addProductDTO);
         Task<IEnumerable<GetProductDTO>> GetAll();
-        GetProductDTO FindById(int productId);
-        void Update(UpdateProductDTO updateProductDTO);
-        void Delete(int productId);
-        Task<List<GetProductDTO>> ProductSorting(string sortingBy);
+        Task<GetProductDTO> FindById(int productId);
+        Task Update(UpdateProductDTO updateProductDTO);
+        Task Delete(int productId);
+        Task<IEnumerable<GetProductDTO>> ProductSorting(string sortingBy);
     }
 }
