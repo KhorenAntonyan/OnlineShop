@@ -29,5 +29,10 @@ namespace OnlineShop.DAL.Repositories.Implementations
                 .Include(c => c.Category)
                 .FirstOrDefaultAsync(p => p.Id == id);
         }
+
+        public Task<IEnumerable<Product>> GetByFilterAsync(Func<Product, bool> filterQuery)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

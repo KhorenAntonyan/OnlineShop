@@ -5,6 +5,6 @@ namespace OnlineShop.DAL.Repositories.Abstractions
 {
     public interface IProductRepository : IBaseRepository<Product>
     {
-        IEnumerable<Product> GetByFilter(Func<Product, bool> filterQuery);
+        Task<IEnumerable<Product>> GetByFilterAsync(Func<Product, bool> filterQuery);
     }
 }

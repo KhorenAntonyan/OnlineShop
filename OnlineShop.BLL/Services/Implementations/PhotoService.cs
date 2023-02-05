@@ -24,7 +24,7 @@ namespace OnlineShop.BLL.Services.Implementations
         public async Task Add(AddPhotoDTO addPhotoDTO)
         {
             var photo = _mapper.Map<Photo>(addPhotoDTO);
-            await _unitOfWork.PhotoRepository.Add(photo);
+            await _unitOfWork.PhotoRepository.AddAsync(photo);
             await _unitOfWork.SaveChangesAsync();
         }
 
@@ -71,25 +71,25 @@ namespace OnlineShop.BLL.Services.Implementations
 
         public async Task<GetPhotoDTO> Find(string photoName)
         {
-            var photo = _mapper.Map<GetPhotoDTO>(await _unitOfWork.PhotoRepository.Find(photoName));
+            var photo = _mapper.Map<GetPhotoDTO>(await _unitOfWork.PhotoRepository.FindAsync(photoName));
             return photo;
         }
 
         public async Task Delete(int photoId)
         {
-            Photo photo = await _unitOfWork.PhotoRepository.FindById(photoId);
-            await _unitOfWork.PhotoRepository.Delete(photo);
+            Photo photo = await _unitOfWork.PhotoRepository.FindByIdAsync(photoId);
+            await _unitOfWork.PhotoRepository.DeleteAsync(photo);
             await _unitOfWork.SaveChangesAsync();
         }
 
-        public async Task<int> UpdateMainPhoto(int photoId, int mainPhotoId)
+        public async Task<int> UpdateMainPhoto(UpdateMainPhotoDTO updateMainPhotoDTO)
         {
-            Photo updatePhoto = await _unitOfWork.PhotoRepository.FindById(photoId);
-            Photo updateMainPhoto = await _unitOfWork.PhotoRepository.FindById(mainPhotoId);
+            Photo updatePhoto = await _unitOfWork.PhotoRepository.FindByIdAsync(updateMainPhotoDTO.PhotoId);
+            Photo updateMainPhoto = await _unitOfWork.PhotoRepository.FindByIdAsync(updateMainPhotoDTO.MainPhotoId);
             updatePhoto.IsMain = true;
             updateMainPhoto.IsMain = false;
-            await _unitOfWork.PhotoRepository.Update(updatePhoto);
-            await _unitOfWork.PhotoRepository.Update(updateMainPhoto);
+            await _unitOfWork.PhotoRepository.UpdateAsync(updatePhoto);
+            await _unitOfWork.PhotoRepository.UpdateAsync(updateMainPhoto);
             await _unitOfWork.SaveChangesAsync();
             
             return updatePhoto.ProductId;

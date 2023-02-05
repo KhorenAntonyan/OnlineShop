@@ -11,5 +11,6 @@ namespace OnlineShop.BLL.Services.Abstractions
         Task Update(UpdateProductDTO updateProductDTO);
         Task Delete(int productId);
         Task<IEnumerable<GetProductDTO>> ProductSorting(string sortingBy);
+        Task<IEnumerable<GetProductDTO>> GetProductsByFilter(ProductFilterDTO productFilters);
     }
 }

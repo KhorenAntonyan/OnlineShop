@@ -23,39 +23,39 @@ namespace OnlineShop.BLL.Services.Implementations
         public async Task Add(AddCategoryDTO addCategoryDTO)
         {
             var category = _mapper.Map<Category>(addCategoryDTO);
-            await _unitOfWork.CategoryRepository.Add(category);
+            await _unitOfWork.CategoryRepository.AddAsync(category);
             await _unitOfWork.SaveChangesAsync();
         }
 
         public async Task<IEnumerable<GetCategoryDTO>> GetAll()
         {
-            var categories = _mapper.Map<List<GetCategoryDTO>>(await _unitOfWork.CategoryRepository.GetAll());
+            var categories = _mapper.Map<List<GetCategoryDTO>>(await _unitOfWork.CategoryRepository.GetAllAsync());
             return categories;
         }
 
         public async Task<GetCategoryDTO> FindById(int categoryId)
         {
-            var category = _mapper.Map<GetCategoryDTO>(await _unitOfWork.CategoryRepository.FindById(categoryId));
+            var category = _mapper.Map<GetCategoryDTO>(await _unitOfWork.CategoryRepository.FindByIdAsync(categoryId));
             return category;
         }
 
         public async Task Delete(int categoryId)
         {
-            Category category = await _unitOfWork.CategoryRepository.FindById(categoryId);
-            await _unitOfWork.CategoryRepository.Delete(category);
+            Category category = await _unitOfWork.CategoryRepository.FindByIdAsync(categoryId);
+            await _unitOfWork.CategoryRepository.DeleteAsync(category);
             await _unitOfWork.SaveChangesAsync();
         }
 
         public async Task Update(UpdateCategoryDTO updateCategoryDTO)
         {
             var updateCategory = _mapper.Map<Category>(updateCategoryDTO);
-            await _unitOfWork.CategoryRepository.Update(updateCategory);
+            await _unitOfWork.CategoryRepository.UpdateAsync(updateCategory);
             await _unitOfWork.SaveChangesAsync();
         }
 
         public async Task<List<GetCategoryDTO>> CategorySorting(string sortingBy)
         {
-            var categories = _mapper.Map<List<GetCategoryDTO>>(_unitOfWork.CategoryRepository.GetAll());
+            var categories = _mapper.Map<List<GetCategoryDTO>>(_unitOfWork.CategoryRepository.GetAllAsync());
 
             switch (sortingBy)
             {
